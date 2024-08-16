@@ -7,7 +7,8 @@ main:
 
         ; [ AH ] [ AL ] AX
         ; Resumindo DECUREBA PURA
-        mov al, 0x02 ; oque será impresso no terminal, nesse caso e um emoji, tem que ser 1 bit
+        ;mov al, 0x02 ; oque será impresso no terminal, nesse caso e um emoji, tem que ser 1 bit
+        mov al, 'X'
         mov ah, 0x0e ; não para que serve, mas tem que ter 
         mov bh, 0 ; para informar que a mensagem será mostrada na tela pricipal, nesse caso o terminal 
         int 0x10 ; não para que serve, mas tem que ter
