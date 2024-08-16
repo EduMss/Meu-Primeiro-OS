@@ -2,11 +2,17 @@ org 0x7c00 ; ta informando que o codigo sera armazenado a partir do endereço de
 bits 16 ; ta informando que o codigo sera em 16 bits
 
 main:
+        ;al -> parte baixa 
+        ;ah -> parte alta
 
+        ; [ AH ] [ AL ] AX
+        ; Resumindo DECUREBA PURA
         mov al, 0x02 ; oque será impresso no terminal, nesse caso e um emoji, tem que ser 1 bit
-        mov ah, 0x0e ; não para que serve, mas tem que ter
+        mov ah, 0x0e ; não para que serve, mas tem que ter 
         mov bh, 0 ; para informar que a mensagem será mostrada na tela pricipal, nesse caso o terminal 
         int 0x10 ; não para que serve, mas tem que ter
+
+        ; int -> interrupção 
 
 halt:
     ; parada da CPU...
