@@ -1,66 +1,64 @@
-org 0x7c00 ; ta informando que o codigo sera armazenado a partir do endereço de memoria 0x7c00
-bits 16 ; ta informando que o codigo sera em 16 bits | para o montador saber que e para montar codigo em 16 bits
-
+    bits 16
+    org 0x7c00
 ;
-; BIOS Service - Impressão de caractere como TTY 
-; AH    0eH
-; AL    character to write
-; BL    (graphics modes only) foreground color number
+; TEXT
 ;
-
 main:
     ;
-    ; Definir segmentos de dados...
+	; Definir segmentos de dados...
     ;
-    mov ax, 0
-    mov ds, ax
-    mov es, ax
+	xor ax, ax
+	mov ds, ax
+	mov es, ax
     ;
-    ; Iniciar a pilha...
+	; Iniciar a pilha...
     ;
-    mov ss, ax
-    mov sp, 0x7c00
+	mov ss, ax
+	mov sp, 0x7c00
 
-; Registrador a -> acumulador de dados
-; Registrador b -> base
-; Registrador c -> contador (counter)
-; Registrador d -> data
-
-
+clear_screen:
+    ;
+	; Limpar a tela
+    ; AH 0x00 => Alterar modo de vídeo
+    ; AL 0x03 => Modo VGA texto 80x25, char 9x16, 16 cores
+    ;
+    mov al, 0x03
+	int 0x10
 
 print_msg:
     ;
-    ; Imprimir mensagem no TTY (com contador)...
+	; Imprimir string...
     ;
-    mov ah, 0x0e
+    ; AH 0x13 => Imprimir string
+    ; AL 0x01 => Atualizar posição do cursor
+    ; BH 0x00 => Página de vídeo 0
+    ; BL      => Atributos de cor [4 bits BG][4 bits FG]
+    ; CX      => Comprimento da string
+    ; DH      => Linha
+    ; DL      => Coluna
+    ; ES:BP   => Endereço do início da string
+	;
+    mov ax, 0x1301      ;
+    mov bx, 0x02        ; BH=0x00 - BL=[BG 0x0][FG 0x2 (verde)]
     mov cx, pad - msg
-    mov si, msg
-.next_char:
-    lodsb
-    int 0x010
-    loop .next_char
+    xor dx, dx          ; Linha 0x00 - Coluna 0x00
+    mov bp, msg         ; ES já está definido como 0
+    int 0x10
 
-
-;cli     ; Limpa a flag de interrupções
-
-; loop infinito parando a cpu | GAMBIARRA
-; mas esse loop so vai acontacer se houver uma interrupção que venha a cancelar o halt
-;Jeito 1 para fazer o loop do halt
-; halt:
-;     ; parada da CPU...
-;     hlt 
-;     jmp halt 
-
-;Jeito 2 para realizar o loop do halt
 halt:
-    cli
-    hlt
+    ;
+    ; Parada da CPU...
+	cli
+	hlt
 
-msg: 
-    db 'Loading OS...'
+;
+; DATA
+;
+msg:
+	db `Welcome to LOS/T!\r\nLoading...`
 
 pad:
-    times 510-($-$$) db 0 ; se o codigo tiver menos que 510 bits, ele vai completar oque falta com 0
+	times 510-($-$$) db 0
 
 sig:
-    dw 0xaa55 ; informação padrão para a cpu. TEM QUE TER ESSA INFORMAÇÃO!!!!!
+	dw 0xaa55
