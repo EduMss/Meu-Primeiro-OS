@@ -1,8 +1,6 @@
 #include <stdio.h>
 
-extern void _start();
-
 int main() {
-    _start();
+    printf("Hello, world!\n");
     return 0;
 }
