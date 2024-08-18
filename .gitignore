@@ -1,1 +1,2 @@
-src/boot/build/
+x86/src/boot/build/
+ARM/src/boot/build/
