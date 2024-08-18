@@ -16,3 +16,4 @@ _start:
     bl printf
 
     # Encerra o programa (não é necessário, pois a biblioteca C cuida disso)
+    
