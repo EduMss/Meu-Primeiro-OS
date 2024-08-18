@@ -1,6 +1,9 @@
 #include <stdio.h>
 
 int main() {
-    puts("Hello, world");
+    for (char c = 'A'; c <= 'Z'; c++) {
+        putchar(c);
+    }
+    putchar('\n');
     return 0;
 }
