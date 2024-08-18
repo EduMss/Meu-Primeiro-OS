@@ -1,9 +1,7 @@
-#include <stdio.h>
+#include <unistd.h>
 
 int main() {
-    for (char c = 'A'; c <= 'Z'; c++) {
-        putchar(c);
-    }
-    putchar('\n');
+    char str[] = "Hello, world!\n";
+    write(1, str, sizeof(str));
     return 0;
 }
