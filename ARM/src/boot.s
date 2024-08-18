@@ -64,6 +64,6 @@ error2:
     mov r0, #2 /* Print 2 when program ends */
     bx lr
 error:
-    ; Código para lidar com o erro
+    /*  Código para lidar com o erro */
     b error1
 addr_of_a: .word a
