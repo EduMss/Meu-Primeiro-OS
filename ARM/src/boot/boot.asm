@@ -1,17 +1,17 @@
-.section .text
 .global _start
 
 _start:
-    mov r0, #1              @ File descriptor (stdout)
-    ldr r1, =message        @ Load address of the message
-    mov r2, #16             @ Message length
-    mov r7, #4              @ sys_write
-    svc #0                  @ Call kernel
+    # Carrega os números a serem somados nos registradores
+    mov r0, #5
+    mov r1, #7
 
-    mov r7, #1              @ sys_exit
-    mov r0, #0              @ Exit status 0
-    svc #0                  @ Call kernel
+    # Soma os números
+    add r2, r0, r1
 
-.section .data
-message:
-    .asciz "Hello, ARM World!\n"
+    # Imprime o resultado (essa parte requer uma chamada de sistema específica)
+    # ... (código para imprimir o resultado)
+
+    # Encerra o programa
+    mov r7, #1
+    mov r0, #0
+    svc #0
