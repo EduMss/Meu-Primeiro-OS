@@ -5,8 +5,8 @@ a: .skip 0x00100000
 
 .text
  
-.global main
-main:
+.global _start
+_start:
     mov r0, #0 /* Setting r0 = 0 */
     ldr r1, addr_of_a       /* r1 = &a */
     mov r2, #0              /* r2 = 0 (r2 is counter) */
