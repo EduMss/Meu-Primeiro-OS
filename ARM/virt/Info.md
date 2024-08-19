@@ -19,6 +19,8 @@ qemu-system-arm -M virt -m 128M -nographic -device loader,file=boot.bin,addr=0x1
 Usando o aarch64 tambem funciona:
 qemu-system-aarch64 -M virt -m 128M -nographic -device loader,file=boot.bin,addr=0x10000
 
+qemu-system-aarch64 -M raspi2b -m 128M -device loader,file=boot.bin,addr=0x10000
+
 
 Informações do UART0_BASE do virt:
 https://github.com/qemu/qemu/blob/master/hw/arm/virt.c
