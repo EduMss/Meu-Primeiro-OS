@@ -1,6 +1,6 @@
 .global _start
 
-.equ UART0_BASE, 0x10000000  @ Tente também com 0x09000000 se não funcionar
+.equ UART0_BASE, 0x09000000  @ Tente também com 0x09000000 se não funcionar
 .equ UARTFR, 0x18
 .equ UARTFR_TXFF, 0x20
 .equ UARTDR, 0x00
