@@ -33,4 +33,5 @@ message:
     .asciz "Hello World\n"
 
 .section .bss
+    .org 0x10000             @ Inicia a seção .bss no endereço 0x10000
     .skip 16777216 - ( . - _start ) @ Preenche até 16 MB com zeros
