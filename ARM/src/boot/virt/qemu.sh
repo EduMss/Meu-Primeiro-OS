@@ -1,0 +1,1 @@
+qemu-system-arm -M virt -m 128M -nographic -kernel boot.bin
