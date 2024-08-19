@@ -33,5 +33,4 @@ message:
     .asciz "Hello World\n"
 
 .section .bss
-    .space 16777216 - (. - _start)  @ Preenche até 16 MB com zeros
-    
+    .skip 16777216 - ( . - _start ) @ Preenche até 16 MB com zeros
