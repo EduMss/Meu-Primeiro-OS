@@ -1,0 +1,1 @@
+qemu-system-aarch64 -M virt -cpu cortex-a53 -device loader,file=boot.bin,addr=0x10000 -s -S

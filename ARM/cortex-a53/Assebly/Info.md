@@ -15,10 +15,14 @@ qemu-system-aarch64 -M virt -cpu cortex-a53 -kernel boot.elf
 UART0_BASE, 0x09000000
 
 
+qemu-system-aarch64 -M virt -cpu cortex-a53 -kernel boot.elf -s -S
+
 
 NÃO FUNCIONA ::::::
 
 qemu-system-aarch64 -M virt -cpu cortex-a53 -device loader,file=boot.bin,addr=0x10000
+
+qemu-system-aarch64 -M virt -cpu cortex-a53 -device loader,file=boot.bin,addr=0x10000 -s -S
 
 
 
@@ -27,3 +31,13 @@ qemu-system-aarch64 -M virt -cpu cortex-a53 -drive file=boot.bin,format=raw,if=n
 
 qemu-img convert -f raw -O qcow2 boot.bin boot.qcow2
 qemu-system-aarch64 -M virt -cpu cortex-a53 -drive file=boot.qcow2,format=qcow2
+
+
+
+aarch64-linux-gnu-as -o boot.o boot.s \
+&& aarch64-linux-gnu-ld -o boot.elf boot.o \
+&& aarch64-linux-gnu-objcopy -O binary boot.elf boot.bin
+
+arm-none-eabi-as -o ./src/boot/boot.o ./src/boot/boot.asm \
+&& arm-none-eabi-ld -o ./src/boot/boot ./src/boot/boot.o \
+&& arm-none-eabi-objcopy -O binary ./src/boot/boot ./src/boot/boot.bin
