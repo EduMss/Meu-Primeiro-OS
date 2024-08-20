@@ -26,3 +26,12 @@ void main() {
     uart_puts("Hello World\n");
     while (1);
 }
+
+
+void _start(void) {
+    // Seu código de inicialização aqui
+    uart_puts("Hello World\n");
+    while (1) {
+        // Loop infinito para bootloader
+    }
+}
