@@ -3,14 +3,18 @@ ENTRY(main)
 SECTIONS
 {
     . = 0x10000;
+
     .text : {
-        *(.text)
-    }
+        *(.text)            /* Código executável */
+    } > ROM
+
     .data : {
-        *(.data)
-    }
-    .bss  : {
-        *(.bss)
-    }
+        *(.data)            /* Dados inicializados */
+    } > RAM
+
+    .bss : {
+        *(.bss)             /* Dados não inicializados */
+    } > RAM
+
     _end = .;
 }
