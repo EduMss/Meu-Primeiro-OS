@@ -1,7 +1,7 @@
 .global _start
 
 // Definições para o UART
-.equ UART0_BASE, 0x3F201000
+.equ UART0_BASE, 0x09000000
 .equ UARTFR, 0x18
 .equ UARTFR_TXFF, 0x20
 .equ UARTDR, 0x00
