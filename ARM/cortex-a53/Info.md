@@ -19,3 +19,7 @@ UART0_BASE, 0x09000000
 
 
 qemu-system-aarch64 -M virt -cpu cortex-a53 -drive file=boot.bin,format=raw,if=none,id=drive0
+
+
+qemu-img convert -f raw -O qcow2 boot.bin boot.qcow2
+qemu-system-aarch64 -M virt -cpu cortex-a53 -drive file=boot.qcow2,format=qcow2
