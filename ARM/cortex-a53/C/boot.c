@@ -27,7 +27,6 @@ void main() {
     while (1);
 }
 
-
 void _start(void) {
     // Seu código de inicialização aqui
     uart_puts("Hello World\n");
