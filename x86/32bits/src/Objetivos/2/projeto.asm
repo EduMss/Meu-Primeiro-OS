@@ -2,6 +2,8 @@ section .data
     file_buffer dd 0
     nova_msg db "Novo Mundo!", 0xA
     nova_msg_len equ $ - nova_msg
+    criado_msg db "ArquivoCriado!", 0xA
+    criado_msg_len equ $ - criado_msg
     filename db "example.txt", 0 
 
 section .bss
@@ -40,8 +42,8 @@ _start:
     ; printando
     mov eax, 4
     mov ebx, 1
-    mov ecx, "ArquivoCriado!"            ; ponteiro para a mensagem
-    mov edx, 14                 ; comprimento da mensagem
+    mov ecx, criado_msg          ; ponteiro para a mensagem
+    mov edx, criado_msg_len      ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
     ; Finalizar o programa
