@@ -92,6 +92,8 @@ x/10xb 0xADDR
 
 Onde 0xADDR é o endereço de memória, e 10xb significa mostrar 10 bytes em formato hexadecimal.
 
+<br/>
+
 Listar as instruções Assembly:
 ```
 disassemble
