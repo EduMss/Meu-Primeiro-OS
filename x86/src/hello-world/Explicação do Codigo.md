@@ -43,6 +43,30 @@ section .text
     global _start                ; Define o ponto de entrada do programa
 ```
 
+`section .text`
+No NASM:
+- Você precisa declarar section .text para programas que dependem de formatos como ELF ou PE.
+- Para binários puros (como bootloaders), as seções podem ser omitidas, mas isso é um caso específico.
+
+<h3>Sistemas Executáveis (como ELF, PE)</h3>
+
+- Quando você cria um sistema executável (como um arquivo ELF no Linux ou um arquivo PE no Windows), você precisa usar as seções como .text, .data, .bss, etc.
+
+- Essas seções ajudam o linker e o carregador do sistema operacional a entender como o código e os dados devem ser organizados e carregados na memória.
+
+- O código da seção .text é onde o programa executável reside, enquanto .data contém dados estáticos e .bss contém dados não inicializados.
+
+
+<h3>Programas de Kernel ou Bootloaders</h3>
+
+- Para programas de kernel ou bootloaders, a situação é um pouco diferente.
+
+- Em um bootloader, você geralmente não está criando um arquivo executável tradicional, mas sim um binário bruto, que é carregado diretamente pela BIOS ou UEFI.
+
+- O kernel ou bootloader é, frequentemente, um arquivo binário simples (não formatado com seções como um executável comum), que será carregado diretamente na memória e executado.
+
+Em bootloaders, você pode omitir as seções (como .text), mas deve garantir o alinhamento e o local correto na memória. A instrução org (origem) é frequentemente usada para definir a posição de início do código no arquivo binário.
+
 `global _start:`
 Indica ao montador que a função `_start` é o ponto inicial do programa. É a primeira coisa que o sistema operacional executa ao rodar o programa.
 
