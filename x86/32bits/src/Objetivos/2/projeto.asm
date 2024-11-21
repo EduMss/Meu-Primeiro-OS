@@ -25,17 +25,7 @@ _start:
     test eax, eax                 ; Se eax for negativo, ocorreu um erro
     js .criar_arquivo                      ; Se erro, sair
 
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, nova_msg            ; ponteiro para a mensagem
-    mov edx, nova_msg_len                 ; comprimento da mensagem
-    int 0x80                     ; chamada ao kernel
-
-    ; Finalizar o programa
-    mov eax, 1                    ; syscall número 1 para exit
-    xor ebx, ebx                  ; código de saída (0)
-    int 0x80                      ; chamada ao kernel
-
+    jmp .continuidade
 
 .criar_arquivo:
     ; Abrir o arquivo para leitura
@@ -50,6 +40,18 @@ _start:
     mov ebx, 1
     mov ecx, criado_msg          ; ponteiro para a mensagem
     mov edx, criado_msg_len      ; comprimento da mensagem
+    int 0x80                     ; chamada ao kernel
+
+    ; Finalizar o programa
+    mov eax, 1                    ; syscall número 1 para exit
+    xor ebx, ebx                  ; código de saída (0)
+    int 0x80                      ; chamada ao kernel
+
+.continuidade:
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, nova_msg            ; ponteiro para a mensagem
+    mov edx, nova_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
     ; Finalizar o programa
