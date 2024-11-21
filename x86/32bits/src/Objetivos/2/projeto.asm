@@ -39,7 +39,7 @@ _start:
     int 0x80             ; chamada ao kernel
 
     mov esi, filename
-    jump .verificar
+    call .verificar
     
 
 .verificar:
@@ -71,7 +71,7 @@ _start:
 
     call .continuidade
 
-    jump .exit
+    call .exit
 
 
 .criar_arquivo:
