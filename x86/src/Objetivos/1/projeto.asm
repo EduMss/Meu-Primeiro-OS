@@ -29,17 +29,17 @@ nome_usuario:
     int 0x80             ; chamada ao kernel
 
     ; 2. Remover a nova linha digitada pelo usuário
-    mov esi, name_buffer     ; Ponteiro para o início do buffer
-    mov byte [esi], 0        ; Adiciona o terminador null
+    ;mov esi, name_buffer     ; Ponteiro para o início do buffer
+    ;mov byte [esi], 0        ; Adiciona o terminador null
     ; 2.1 Calcular o comprimento do nome
-    sub esi, name_buffer     ; Comprimento da string = posição atual - início
-    mov edx, esi             ; Salva o comprimento em edx
+    ;sub esi, name_buffer     ; Comprimento da string = posição atual - início
+    ;mov edx, esi             ; Salva o comprimento em edx
 
     ; Exibindo o nome do usuário (usando sys_write)
     mov eax, 4           ; syscall: sys_write
     mov ebx, 1           ; file descriptor: stdout (saída padrão)
     mov ecx, name_buffer     ; Endereço do buffer com o nome
-    ;mov edx, 32          ; número máximo de bytes a escrever
+    mov edx, 32          ; número máximo de bytes a escrever
     int 0x80             ; chamada ao kernel
 
     mov eax, 4           ; syscall: sys_write
