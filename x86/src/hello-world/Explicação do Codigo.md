@@ -11,6 +11,7 @@ O código está dividido em duas seções principais:
 <br/>
 
 <h2>2. Seção .data</h2>
+
 Esta seção armazena os dados necessários para a execução do programa.
 ```
 section .data
