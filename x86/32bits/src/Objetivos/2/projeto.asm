@@ -21,7 +21,28 @@ _start:
 
     ; Verificar se houve erro na abertura do arquivo (se o arquivo não foi aberto corretamente)
     test eax, eax                 ; Se eax for negativo, ocorreu um erro
-    js .exit                      ; Se erro, sair
+    js .criar_arquivo                      ; Se erro, sair
+
+    ; Finalizar o programa
+    mov eax, 1                    ; syscall número 1 para exit
+    xor ebx, ebx                  ; código de saída (0)
+    int 0x80                      ; chamada ao kernel
+
+
+.criar_arquivo:
+    ; Abrir o arquivo para leitura
+    mov eax, 5          ; syscall: sys_open
+    mov ebx, filename   ; nome do arquivo
+    mov ecx, 0x40       ; O_FLAGS:  O_CREAT (0x40) | criar o arquivos se não existir
+    int 0x80            ; chamada ao kernel
+    mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
+
+    ; printando
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, "ArquivoCriado!"            ; ponteiro para a mensagem
+    mov edx, 14                 ; comprimento da mensagem
+    int 0x80                     ; chamada ao kernel
 
     ; Finalizar o programa
     mov eax, 1                    ; syscall número 1 para exit
