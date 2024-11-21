@@ -27,11 +27,11 @@ _start:
     mov edx, inicial_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
-    jmp .continuidade
+    call .continuidade
 
-    jmp .continuidade
+    call .continuidade
 
-    jmp .exit
+    call .exit
 
 .VerificarArquivo:
     ; Usuario escrevendo nome
