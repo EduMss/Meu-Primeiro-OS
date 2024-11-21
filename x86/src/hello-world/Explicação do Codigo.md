@@ -20,11 +20,14 @@ section .data
 ```
 
 `msg:`
-Cria uma mensagem de texto "Hello, World!", terminada com 0xA (o código ASCII para "nova linha", ou \n), para que o texto pule para a linha seguinte após ser exibido.
-db significa "define byte", usado para armazenar bytes em memória.
+Cria uma mensagem de texto "Hello, World!", terminada com `0xA` (o código ASCII para "nova linha", ou \n), para que o texto pule para a linha seguinte após ser exibido.
+
+- `db` significa "define byte", usado para armazenar bytes em memória, ou seja, `msg` é o rótulo (ou label) que aponta para o endereço de memória onde os dados "Hello, World!" e 0xA estão armazenados.
 
 `len:`
 Calcula o comprimento da mensagem.
+
+- `equ`  (abreviação de equate, ou "equivalente") em Assembly é usado para definir constantes simbólicas. Durante a montagem, ele substitui o nome de uma constante pelo valor especificado durante a montagem do programa. Isso ajuda a tornar o código mais legível e fácil de manter.
 
 - `$` refere-se ao endereço atual no código.
 
