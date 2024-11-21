@@ -22,13 +22,13 @@ nome_usuario:
     mov eax, 3  ; ler terminal
     mov ebx, 0  ; sdtin
     mov ecx, name_buffer   ; endereço de memória para armazenar a entrada
-    mov edx, 64          ; número máximo de bytes a ler (tamanho do buffer)
+    mov edx, 32          ; número máximo de bytes a ler (tamanho do buffer)
     int 0x80             ; chamada ao kernel
 
     ; Exibindo o nome do usuário (usando sys_write)
     mov eax, 4           ; syscall: sys_write
     mov ebx, 1           ; file descriptor: stdout (saída padrão)
-    mov edx, 64          ; número máximo de bytes a escrever
+    mov edx, 32          ; número máximo de bytes a escrever
     int 0x80             ; chamada ao kernel
 
 finalizar: 
