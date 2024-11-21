@@ -38,20 +38,19 @@ nome_usuario:
     int 0x80                     ; chamada ao kernel
 
     mov esi, name_buffer
-    ;mov byte [esi], 0        ; Adiciona o terminador null
 verificar:
     cmp byte [esi], 0xA ; em hexadecimal 0xA e '\n'
-    je imprimir; se tiver r, vai executar o "imprimir_true"
+    je imprimir; se tiver ele vai remover no "imprimir"
     inc esi ; avançar para o proximo caractere do esi
     cmp byte [esi], 0 ; verificar se não chegamos no final do texto
-    je imprimir; se for 0, vai executar o "imprimir_false"
+    je imprimir; se for 0, vai executar o "imprimir"
     jmp verificar
 
 ; cmp => je (se for verdadeiro) | jne (se for falso)
 
 
 imprimir:    
-    ; 2.1 Calcular o comprimento do nome
+    ; Calcular o comprimento do nome
     sub esi, name_buffer     ; Comprimento da string = posição atual - início
     mov edx, esi             ; Salva o comprimento em edx
 
@@ -62,13 +61,13 @@ imprimir:
     ;mov edx, 32          ; número máximo de bytes a escrever
     int 0x80             ; chamada ao kernel
 
+    ; escrever "Seja Bem-vindo!"
     mov eax, 4           ; syscall: sys_write
     mov ebx, 1           ; file descriptor: stdout (saída padrão)
-    mov edx, welcome_msg_len          ; número máximo de bytes a escrever
+    mov edx, welcome_msg_len  ; número máximo de bytes a escrever
     mov ecx, welcome_msg ;
     int 0x80             ; chamada ao kernel
     
-finalizar: 
     ; Finaliza o programa
     mov eax, 1           ; syscall: sys_exit
     xor ebx, ebx         ; código de saída 0
