@@ -47,6 +47,12 @@ imprimir_true:
     mov edx, true_msg_len
     int 0x80
 
+    mov eax, 4 
+    mov ebx, 1
+    mov ecx, esi
+    mov edx, 64
+    int 0x80
+
     ; Finaliza o programa
     mov eax, 1           ; syscall: sys_exit
     xor ebx, ebx         ; código de saída 0
