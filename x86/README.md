@@ -43,6 +43,8 @@ nasm -f elf32 -g -F dwarf -o hello.o hello.asm
 -g: Gera informações de depuração.
 -F dwarf: Usa o formato de depuração DWARF.
 
+<br/>
+
 Para ligar com o ld:
 ```
 ld -m elf_i386 -o hello hello.o
