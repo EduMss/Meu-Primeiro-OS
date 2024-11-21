@@ -71,7 +71,7 @@ _start:
 
     call .continuidade
 
-    .exit
+    jmp .exit
 
 
 .criar_arquivo:
