@@ -1,6 +1,6 @@
 Configurar um makefile para aprender usar esse recurso tambem!
 
-1º Projeto simples 
+1º Projeto simples (FEITO)
 Onde vai aparecer uma mensagem no terminal pedindo para o usuario inserir o seu nome, e será printado "Olá {fulado}, Seja Bem-vindo!"
 
 2º Segunda parte
