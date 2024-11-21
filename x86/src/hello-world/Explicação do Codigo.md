@@ -43,6 +43,9 @@ section .text
     global _start                ; Define o ponto de entrada do programa
 ```
 
+`global _start:`
+Indica ao montador que a função `_start` é o ponto inicial do programa. É a primeira coisa que o sistema operacional executa ao rodar o programa.
+
 `section .text`
 No NASM:
 - Você precisa declarar section .text para programas que dependem de formatos como ELF ou PE.
@@ -67,8 +70,16 @@ No NASM:
 
 Em bootloaders, você pode omitir as seções (como .text), mas deve garantir o alinhamento e o local correto na memória. A instrução org (origem) é frequentemente usada para definir a posição de início do código no arquivo binário.
 
-`global _start:`
-Indica ao montador que a função `_start` é o ponto inicial do programa. É a primeira coisa que o sistema operacional executa ao rodar o programa.
+Exemplo de código para bootloader (sem `.text`):
+```
+org 0x7C00         ; Posição inicial para o carregamento do bootloader
+mov ah, 0x0E
+mov al, 'H'
+int 0x10           ; Chama a interrupção para imprimir um caractere na tela
+hlt                ; Encerra o bootloader
+```
+
+`org 0x7C00` diz ao montador onde o código será carregado na memória (no caso, no endereço 0x7C00, que é o endereço inicial de execução de um bootloader no BIOS).
 
 <br/>
 
