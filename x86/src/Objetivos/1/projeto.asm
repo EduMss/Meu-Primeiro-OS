@@ -23,18 +23,20 @@ _start:
 
 
 nome_usuario:
+    ; Usuario escrevendo nome
+    mov eax, 3  ; ler terminal
+    mov ebx, 0  ; sdtin
+    mov ecx, name_buffer   ; endereço de memória para armazenar a entrada
+    mov edx, 32          ; número máximo de bytes a ler (tamanho do buffer)
+    int 0x80             ; chamada ao kernel
+
+    ; imprimir "Ola "
     mov eax, 4
     mov ebx, 1
     mov ecx, hello_msg            ; ponteiro para a mensagem
     mov edx, hello_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
-
-    mov eax, 3  ; ler terminal
-    mov ebx, 0  ; sdtin
-    mov ecx, name_buffer   ; endereço de memória para armazenar a entrada
-    mov edx, 32          ; número máximo de bytes a ler (tamanho do buffer)
-    int 0x80             ; chamada ao kernel
 
     ; 2. Remover a nova linha digitada pelo usuário
     mov esi, name_buffer     ; Ponteiro para o início do buffer
