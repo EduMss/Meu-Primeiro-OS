@@ -5,7 +5,7 @@ section .data
 
     true_msg db "Tem 'r' no texto"
     true_msg_len equ $ - true_msg
-    false_msg db "Tem 'r' no texto"
+    false_msg db "Não tem 'r' no texto"
     false_msg_len equ $ - false_msg
 
 section .bss
@@ -32,12 +32,13 @@ usuario_input:
 
 verificar:
     cmp byte [esi], 0x72 ; em hexadecimal 0x72 e 'r'
-    jne imprimir_false ; se tiver r, vai executar o "imprimir_true"
+    je imprimir_true ; se tiver r, vai executar o "imprimir_true"
     inc esi ; avançar para o proximo caractere do esi
     cmp byte [esi], 0 ; verificar se não chegamos no final do texto
     je imprimir_false ; se for 0, vai executar o "imprimir_false"
     jmp verificar
 
+; cmp => je (se for verdadeiro) | jne (se for falso)
 
 imprimir_true:
     mov eax, 4 

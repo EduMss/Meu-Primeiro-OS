@@ -8,11 +8,13 @@ sudo apt install binutils
 sudo apt install xxd
 
 sudo apt install hexedit
+
+sudo apt-get -y install libc6-dbg gdb valgrind 
 ```
 
 Todos de uma vez:
 ```
-sudo apt -y install nasm binutils qemu-utils qemu-system-x86 qemu-system-gui xxd hexedit
+sudo apt -y install nasm binutils qemu-utils qemu-system-x86 qemu-system-gui xxd hexedit libc6-dbg gdb valgrind 
 ```
 
 Compile o código Assembly com o NASM:
