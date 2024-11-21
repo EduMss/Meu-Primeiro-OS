@@ -1,10 +1,12 @@
 section .data
     hello_msg db "Olá ", 0       ; Prefixo da mensagem
     welcome_msg db ", Seja Bem-vindo!", 0xA, 0 ; Sufixo da mensagem com nova linha
+
+section .bss
     name_buffer resb 32          ; Buffer para armazenar o nome do usuário (máx 31 chars + null)
 
 section .text
-    global _start
+global _start
 
 _start:
     ; 1. Obter o nome do usuário
