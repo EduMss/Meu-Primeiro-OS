@@ -38,7 +38,7 @@ nome_usuario:
     int 0x80                     ; chamada ao kernel
 
     mov esi, name_buffer
-    mov byte [esi], 0        ; Adiciona o terminador null
+    ;mov byte [esi], 0        ; Adiciona o terminador null
 verificar:
     cmp byte [esi], 0xA ; em hexadecimal 0xA e '\n'
     je imprimir; se tiver r, vai executar o "imprimir_true"
