@@ -27,6 +27,13 @@ _start:
     mov edx, inicial_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
+    jmp .continuidade
+
+    jmp .continuidade
+
+    jmp .exit
+
+.VerificarArquivo:
     ; Usuario escrevendo nome
     mov eax, 3  ; ler terminal
     mov ebx, 0  ; sdtin
@@ -71,9 +78,9 @@ _start:
     int 0x80                     ; chamada ao kernel
 
     ; Finalizar o programa
-    mov eax, 1                    ; syscall número 1 para exit
-    xor ebx, ebx                  ; código de saída (0)
-    int 0x80                      ; chamada ao kernel
+    ;mov eax, 1                    ; syscall número 1 para exit
+    ;xor ebx, ebx                  ; código de saída (0)
+    ;int 0x80                      ; chamada ao kernel
 
 
 
