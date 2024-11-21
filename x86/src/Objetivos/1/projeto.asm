@@ -38,6 +38,7 @@ nome_usuario:
     ; Exibindo o nome do usuário (usando sys_write)
     mov eax, 4           ; syscall: sys_write
     mov ebx, 1           ; file descriptor: stdout (saída padrão)
+    mov ecx, name_buffer     ; Endereço do buffer com o nome
     ;mov edx, 32          ; número máximo de bytes a escrever
     int 0x80             ; chamada ao kernel
 
