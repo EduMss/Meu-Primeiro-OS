@@ -37,7 +37,7 @@ nome_usuario:
     mov edx, hello_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
-
+    mov byte [esi], 0        ; Adiciona o terminador null
 verificar:
     cmp byte [esi], 0xA ; em hexadecimal 0xA e '\n'
     je imprimir; se tiver r, vai executar o "imprimir_true"
@@ -49,11 +49,7 @@ verificar:
 ; cmp => je (se for verdadeiro) | jne (se for falso)
 
 
-imprimir:
-    ; 2. Remover a nova linha digitada pelo usuário
-    ;mov esi, name_buffer     ; Ponteiro para o início do buffer
-    mov byte [esi], 0        ; Adiciona o terminador null
-
+imprimir:    
     ; 2.1 Calcular o comprimento do nome
     sub esi, name_buffer     ; Comprimento da string = posição atual - início
     mov edx, esi             ; Salva o comprimento em edx
@@ -65,11 +61,11 @@ imprimir:
     ;mov edx, 32          ; número máximo de bytes a escrever
     int 0x80             ; chamada ao kernel
 
-    mov eax, 4           ; syscall: sys_write
-    mov ebx, 1           ; file descriptor: stdout (saída padrão)
-    mov edx, welcome_msg_len          ; número máximo de bytes a escrever
-    mov ecx, welcome_msg ;
-    int 0x80             ; chamada ao kernel
+    ;mov eax, 4           ; syscall: sys_write
+    ;mov ebx, 1           ; file descriptor: stdout (saída padrão)
+    ;mov edx, welcome_msg_len          ; número máximo de bytes a escrever
+    ;mov ecx, welcome_msg ;
+    ;int 0x80             ; chamada ao kernel
     
 finalizar: 
     ; Finaliza o programa
