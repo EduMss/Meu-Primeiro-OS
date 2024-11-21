@@ -1,6 +1,7 @@
 section .data
     hello_msg db "Olá ", 0       ; Prefixo da mensagem
     welcome_msg db ", Seja Bem-vindo!", 0xA, 0 ; Sufixo da mensagem com nova linha
+    welcome_msg_len equ $ - welcome_msg
     Fist_msg db "Informe seu nome: ", 0;0xA    ; Mensagem peguntando o nome
     len equ $ - Fist_msg              ; Comprimento da mensagem
 
@@ -28,8 +29,13 @@ nome_usuario:
     ; Exibindo o nome do usuário (usando sys_write)
     mov eax, 4           ; syscall: sys_write
     mov ebx, 1           ; file descriptor: stdout (saída padrão)
-    mov ecx, welcome_msg ; adicionando mensagem ", Seja Bem-vindo!"
     mov edx, 32          ; número máximo de bytes a escrever
+    int 0x80             ; chamada ao kernel
+
+    mov eax, 4           ; syscall: sys_write
+    mov ebx, 1           ; file descriptor: stdout (saída padrão)
+    mov edx, welcome_msg_len          ; número máximo de bytes a escrever
+    mov ecx, welcome_msg ;
     int 0x80             ; chamada ao kernel
 
 finalizar: 
