@@ -21,6 +21,11 @@ _start:
     mov edx, 100        ; quantidade máxima de bytes para ler
     int 0x80            ; chamada ao kernel
 
+    ; printar oque esta escrito
+    mov eax, 4
+    mov ebx, 1
+    int 0x80
+
     ; Fechar o arquivo
     mov eax, 6          ; syscall: sys_close
     int 0x80            ; chamada ao kernel
