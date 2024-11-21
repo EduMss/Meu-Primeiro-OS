@@ -62,11 +62,11 @@ imprimir:
     ;mov edx, 32          ; número máximo de bytes a escrever
     int 0x80             ; chamada ao kernel
 
-    ;mov eax, 4           ; syscall: sys_write
-    ;mov ebx, 1           ; file descriptor: stdout (saída padrão)
-    ;mov edx, welcome_msg_len          ; número máximo de bytes a escrever
-    ;mov ecx, welcome_msg ;
-    ;int 0x80             ; chamada ao kernel
+    mov eax, 4           ; syscall: sys_write
+    mov ebx, 1           ; file descriptor: stdout (saída padrão)
+    mov edx, welcome_msg_len          ; número máximo de bytes a escrever
+    mov ecx, welcome_msg ;
+    int 0x80             ; chamada ao kernel
     
 finalizar: 
     ; Finaliza o programa
