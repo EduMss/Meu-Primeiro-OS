@@ -28,3 +28,83 @@ Execute o programa:
 ```
 ./hello-world
 ```
+
+
+
+<h1>Debugar</h1>
+
+Para compilar com o NASM:
+```
+nasm -f elf32 -g -F dwarf -o hello.o hello.asm
+```
+
+-g: Gera informações de depuração.
+-F dwarf: Usa o formato de depuração DWARF.
+
+Para ligar com o ld:
+```
+ld -m elf_i386 -o hello hello.o
+```
+
+Inicie o GDB
+Execute o GDB com o programa que deseja depurar:
+```
+gdb ./hello
+```
+
+
+Comandos básicos do GDB
+
+Definir ponto de parada no início do programa:
+```
+break _start
+```
+
+Isso define um ponto de interrupção no rótulo _start (o ponto de entrada do código).
+
+Iniciar o programa:
+```
+run
+```
+
+Avançar para a próxima instrução:
+```
+stepi
+```
+
+Esse comando executa a próxima instrução Assembly.
+
+
+Verificar registradores:
+```
+info registers
+```
+
+Mostra o estado atual de todos os registradores.
+
+
+Examinar a memória:
+
+Para ver o conteúdo de um endereço:
+```
+x/10xb 0xADDR
+```
+
+Onde 0xADDR é o endereço de memória, e 10xb significa mostrar 10 bytes em formato hexadecimal.
+
+Listar as instruções Assembly:
+```
+disassemble
+```
+
+Passos opcionais
+
+Sair do GDB:
+```
+quit
+```
+
+Mais ajuda no GDB:
+```
+help
+```
