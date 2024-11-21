@@ -57,15 +57,7 @@ nome_usuario:
     mov edx, welcome_msg_len          ; número máximo de bytes a escrever
     mov ecx, welcome_msg ;
     int 0x80             ; chamada ao kernel
-
-remove_newline:
-    cmp byte [esi], 0xA      ; Verifica se é '\n' (nova linha)
-    je add_null              ; Se for, substitui por 0 (null terminator)
-    cmp byte [esi], 0        ; Verifica se é o fim do texto (0)
-    je add_null              ; Se for, pula para o fim
-    inc esi                  ; Avança para o próximo caractere
-    jmp remove_newline       ; Continua verificando
-
+    
 finalizar: 
     ; Finaliza o programa
     mov eax, 1           ; syscall: sys_exit
