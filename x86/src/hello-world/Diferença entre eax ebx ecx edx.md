@@ -56,7 +56,9 @@ Neste exemplo:
 
 - `eax` armazena o valor de resultado da soma.
 
-- `ebx` armazena o segundo valor a ser somado.
+- `ebx` armazena o segundo valor a ser somado (como um valor temporario).
+
+- `add eax, ebx` acho que a maneira correta de ler isso seria: adicione no valor eax o valor de ebx
 
 *Diferenças em funções específicas (como em syscalls):*
 
