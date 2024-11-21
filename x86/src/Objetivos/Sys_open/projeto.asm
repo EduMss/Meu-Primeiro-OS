@@ -1,5 +1,7 @@
 section .data
     filename db "example.txt", 0  ; Nome do arquivo (se tiver so o nome, ele procurara no diretorio onde o programa esta sendo executado, se eu quiser buscar em outro diretorio basta colocar o caminho completo "/home/example.txt")
+
+section .bss
     buffer resb 100                ; Buffer para armazenar a leitura (100 bytes)
 
 section .text
