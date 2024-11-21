@@ -117,6 +117,20 @@ Interrupção do sistema para executar a syscall. O código no registrador eax (
 
 O kernel escreve a mensagem no terminal usando os dados fornecidos.
 
+
+Você consegue mais syscall no manual do linux:
+
+- `man 2 syscall`: Um manual que fornece uma visão geral das syscalls.
+
+- `man 2 syscalls`: Lista detalhada de syscalls disponíveis para um determinado sistema.
+
+
+Alguns System Calls: 
+
+- https://www.tutorialspoint.com/assembly_programming/assembly_system_calls.htm
+
+- https://gil0mendes.gitbooks.io/assembly/content/system_calls.html
+
 <br/>
 
 <h3>b. Sair do programa</h3>
