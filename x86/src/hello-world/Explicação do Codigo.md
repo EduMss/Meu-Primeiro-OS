@@ -8,6 +8,7 @@ O código está dividido em duas seções principais:
 .data: Contém os dados, como a mensagem a ser exibida.
 .text: Contém o código que será executado.
 
+<br/>
 
 <h2>2. Seção .data</h2>
 Esta seção armazena os dados necessários para a execução do programa.
@@ -28,6 +29,7 @@ Calcula o comprimento da mensagem.
 $ refere-se ao endereço atual no código.
 $ - msg calcula o número de bytes desde o início da mensagem até o final (isto é, o tamanho da mensagem).
 
+<br/>
 
 <h2>3. Seção .text</h2>
 Esta seção contém o código que será executado.
@@ -39,10 +41,13 @@ section .text
 global _start:
 Indica ao montador que a função _start é o ponto inicial do programa. É a primeira coisa que o sistema operacional executa ao rodar o programa.
 
+<br/>
 
 <h2>4. Código do Programa</h2>
 
 O código dentro da função _start faz duas operações principais: imprimir a mensagem e sair do programa.
+
+<br/>
 
 <h3>a. Imprimir a mensagem</h3>
 ```
@@ -65,6 +70,8 @@ Define o comprimento da mensagem como o valor no registrador edx.
 int 0x80:
 Interrupção do sistema para executar a syscall. O código no registrador eax (4, no caso) diz ao kernel qual operação realizar.
 O kernel escreve a mensagem no terminal usando os dados fornecidos.
+
+<br/>
 
 <h3>b. Sair do programa</h3>
 ```
