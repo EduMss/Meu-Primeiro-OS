@@ -4,6 +4,15 @@ sudo apt -y install nasm
 sudo apt install qemu-utils qemu-system-x86 qemu-system-gui
 
 sudo apt install binutils
+
+sudo apt install xxd
+
+sudo apt install hexedit
+```
+
+Todos de uma vez:
+```
+sudo apt -y install nasm binutils qemu-utils qemu-system-x86 qemu-system-gui xxd hexedit
 ```
 
 Compile o código Assembly com o NASM:
@@ -119,4 +128,36 @@ quit
 Mais ajuda no GDB:
 ```
 help
+```
+
+<h1>Outros Comandos:</h1>
+
+Obter informações do cabeçalho do arquivo:
+```
+file hello
+```
+"hello" e o nome do arquivo
+
+<br/>
+
+Ver o ultimo resultado:
+```
+echo $?
+```
+retorna o valor de retorno do que foi executado ou "0" para sucesso
+
+<br/>
+
+Usando o xxd:
+```
+xxd -c12 -g1 hello
+```
+-c12 => 12 colunas
+-g1 => 1 byte
+
+<br/>
+
+Visualizar tabela ASCII no terminal:
+```
+man ascii
 ```
