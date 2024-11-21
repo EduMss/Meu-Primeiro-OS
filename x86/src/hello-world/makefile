@@ -1,22 +1,20 @@
-# Nome do executável final
-EXECUTABLE = program
 
-# Nome do arquivo de código fonte Assembly
+
+EXECUTABLE = program
 SOURCE = TesteChamada.asm
 
-# Compilador e linker
 AS = nasm
 LD = ld
 
-# Flags para o NASM e o linker
-ASFLAGS = -f elf32       # Formato do arquivo objeto (32 bits)
-LDFLAGS = -m elf_i386    # Formato do linking (32 bits)
 
-# Regra principal: gera o executável
+
+ASFLAGS = -f elf32
+
+
+LDFLAGS = -m elf_i386
+
+
+
+
 $(EXECUTABLE): $(SOURCE)
-    $(AS) $(ASFLAGS) -o program.o $(SOURCE)  # Compila o Assembly para um arquivo objeto
-    $(LD) $(LDFLAGS) -o $(EXECUTABLE) program.o  # Linka o arquivo objeto e gera o executável
-
-# Regra para limpar os arquivos intermediários
-clean:
-    rm -f program.o $(EXECUTABLE)
+    $(AS) $(ASFLAGS) -o program.o $(SOURCE) 
