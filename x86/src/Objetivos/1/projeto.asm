@@ -29,8 +29,8 @@ nome_usuario:
     int 0x80             ; chamada ao kernel
 
     ; 2. Remover a nova linha digitada pelo usuário
-    ;mov esi, name_buffer     ; Ponteiro para o início do buffer
-    ;mov byte [esi], 0        ; Adiciona o terminador null
+    mov esi, name_buffer     ; Ponteiro para o início do buffer
+    mov byte [esi], 0        ; Adiciona o terminador null
     ; 2.1 Calcular o comprimento do nome
     ;sub esi, name_buffer     ; Comprimento da string = posição atual - início
     ;mov edx, esi             ; Salva o comprimento em edx
