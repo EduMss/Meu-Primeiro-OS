@@ -4,7 +4,7 @@ SOURCE = projeto.asm
 AS = nasm
 LD = ld
 
-ASFLAGS = -f elf32
+ASFLAGS = -f elf32 -g -F dwarf 
 LDFLAGS = -m elf_i386
 
 $(EXECUTABLE): $(SOURCE)
