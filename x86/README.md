@@ -14,6 +14,7 @@ nasm -f elf32 -o hello-world.o hello-world.asm
 -f elf32: Especifica o formato de saída como ELF de 32 bits.
 -o hello-world.o: Especifica o nome do arquivo de saída.
 
+<br/>
 
 Link o arquivo objeto com o ld:
 ```
@@ -23,6 +24,7 @@ ld -m elf_i386 -o hello-world hello-world.o
 -m elf_i386: Especifica o formato de 32 bits para linking.
 -o hello-world: Especifica o nome do executável de saída.
 
+<br/>
 
 Execute o programa:
 ```
@@ -62,6 +64,8 @@ break _start
 
 Isso define um ponto de interrupção no rótulo _start (o ponto de entrada do código).
 
+<br/>
+
 Iniciar o programa:
 ```
 run
@@ -74,6 +78,7 @@ stepi
 
 Esse comando executa a próxima instrução Assembly.
 
+<br/>
 
 Verificar registradores:
 ```
@@ -82,6 +87,7 @@ info registers
 
 Mostra o estado atual de todos os registradores.
 
+<br/>
 
 Examinar a memória:
 
@@ -98,6 +104,8 @@ Listar as instruções Assembly:
 ```
 disassemble
 ```
+
+<br/>
 
 Passos opcionais
 
