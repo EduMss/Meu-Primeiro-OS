@@ -3,6 +3,11 @@ section .data
     inicial_msg_len equ $ - inicial_msg
     index_r dd 0
 
+    true_msg db "Tem 'r' no texto"
+    true_msg_len equ $ - true_msg
+    false_msg db "Tem 'r' no texto"
+    false_msg_len equ $ - false_msg
+
 section .bss
     texto_buffer resb 64
 
@@ -23,16 +28,39 @@ usuario_input:
     mov edx, 64
     int 0x80
 
-imprimir_input:
+    mov esi, texto_buffer
+
+verificar:
+    cmp byte [esi], 0x72
+    je imprimir_true
+    inc esi ; avançar para o proximo caractere do esi
+    cmp byte [esi], 0 ; verificar se não chegamos no final do texto
+    je imprimir_false
+    jmp verificar
+
+imprimir_false:
     mov eax, 4 
     mov ebx, 1
-    mov ecx, texto_buffer
-    mov edx, 64
+    mov ecx, false_msg
+    mov edx, false_msg_len
     int 0x80
 
-
-finalizar: 
     ; Finaliza o programa
     mov eax, 1           ; syscall: sys_exit
     xor ebx, ebx         ; código de saída 0
     int 0x80             ; chamada ao kernel
+
+
+imprimir_true:
+    mov eax, 4 
+    mov ebx, 1
+    mov ecx, true_msg
+    mov edx, true_msg_len
+    int 0x80
+
+    ; Finaliza o programa
+    mov eax, 1           ; syscall: sys_exit
+    xor ebx, ebx         ; código de saída 0
+    int 0x80             ; chamada ao kernel
+
+
