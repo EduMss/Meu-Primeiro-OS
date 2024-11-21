@@ -27,11 +27,8 @@ _start:
     mov edx, inicial_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
-    call .continuidade
+    jump .VerificarArquivo
 
-    call .continuidade
-
-    call .exit
 
 .VerificarArquivo:
     ; Usuario escrevendo nome
@@ -40,6 +37,26 @@ _start:
     mov ecx, filename   ; endereço de memória para armazenar a entrada
     mov edx, 100          ; número máximo de bytes a ler (tamanho do buffer)
     int 0x80             ; chamada ao kernel
+
+    mov esi, filename
+    jump .verificar
+    
+
+.verificar:
+    cmp byte [esi], 0xA ; em hexadecimal 0xA e '\n'
+    je abrirArquivo; se tiver ele vai remover no "imprimir"
+    inc esi ; avançar para o proximo caractere do esi
+    cmp byte [esi], 0 ; verificar se não chegamos no final do texto
+    je abrirArquivo; se for 0, vai executar o "imprimir"
+    jmp verificar
+
+.abrirArquivo:
+    ; Calcular o comprimento do nome
+    sub esi, filename   ; Comprimento da string = posição atual - início
+    mov edx, esi        ; Salva o comprimento em edx
+
+    ; Cortar a string
+    mov byte [esi + filename], 0  ; Insere o terminador nulo no final da substring
 
     ; Abrir o arquivo para leitura
     mov eax, 5          ; syscall: sys_open
@@ -52,7 +69,10 @@ _start:
     test eax, eax                 ; Se eax for negativo, ocorreu um erro
     js .criar_arquivo                      ; Se erro, ele vai criar o arquivo, depois vai dar contninuidade no codigo
 
-    jmp .continuidade
+    call .continuidade
+
+    jump .exit
+
 
 .criar_arquivo:
     ; Abrir o arquivo para leitura
@@ -81,7 +101,7 @@ _start:
     ;mov eax, 1                    ; syscall número 1 para exit
     ;xor ebx, ebx                  ; código de saída (0)
     ;int 0x80                      ; chamada ao kernel
-    ret
+    ret                         ; retornar para onde ele foi chamado via call
 
 .exit:
     ; Finalizar o programa
