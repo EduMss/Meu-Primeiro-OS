@@ -37,6 +37,7 @@ nome_usuario:
     mov edx, hello_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
+    mov esi, name_buffer
     mov byte [esi], 0        ; Adiciona o terminador null
 verificar:
     cmp byte [esi], 0xA ; em hexadecimal 0xA e '\n'
