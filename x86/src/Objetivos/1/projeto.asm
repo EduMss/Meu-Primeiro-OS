@@ -1,51 +1,61 @@
 section .data
     hello_msg db "Olá ", 0       ; Prefixo da mensagem
     welcome_msg db ", Seja Bem-vindo!", 0xA, 0 ; Sufixo da mensagem com nova linha
-    welcome_msg_len equ $ - welcome_msg
-    Fist_msg db "Informe seu nome: ", 0;0xA    ; Mensagem peguntando o nome
-    len equ $ - Fist_msg              ; Comprimento da mensagem
 
 section .bss
     name_buffer resb 32          ; Buffer para armazenar o nome do usuário (máx 31 chars + null)
-    
 
 section .text
-    global _start
+global _start
 
 _start:
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, Fist_msg            ; ponteiro para a mensagem
-    mov edx, len                 ; comprimento da mensagem
-    int 0x80                     ; chamada ao kernel
+    ; 1. Obter o nome do usuário
+    mov eax, 3               ; syscall: sys_read
+    mov ebx, 0               ; file descriptor: stdin
+    mov ecx, name_buffer     ; Buffer onde o nome será armazenado
+    mov edx, 32              ; Tamanho máximo da entrada
+    int 0x80                 ; Chamada ao kernel
 
-nome_usuario:
-    mov eax, 3  ; ler terminal
-    mov ebx, 0  ; sdtin
-    mov ecx, name_buffer   ; endereço de memória para armazenar a entrada
-    mov edx, 32          ; número máximo de bytes a ler (tamanho do buffer)
-    int 0x80             ; chamada ao kernel
+    ; 2. Remover a nova linha digitada pelo usuário
+    mov esi, name_buffer     ; Ponteiro para o início do buffer
+remove_newline:
+    cmp byte [esi], 0xA      ; Verifica se é '\n' (nova linha)
+    je add_null              ; Se for, substitui por 0 (null terminator)
+    cmp byte [esi], 0        ; Verifica se é o fim do texto (0)
+    je add_null              ; Se for, pula para o fim
+    inc esi                  ; Avança para o próximo caractere
+    jmp remove_newline       ; Continua verificando
+add_null:
+    ; 3. Concatenar as strings e exibir
+    ; Escreve a mensagem "Olá "
+    mov eax, 4               ; syscall: sys_write
+    mov ebx, 1               ; file descriptor: stdout
+    mov ecx, hello_msg       ; Endereço da string "Olá "
+    mov edx, 5               ; Tamanho da string
+    int 0x80                 ; Chamada ao kernel
+
 
     mov byte [esi], 0        ; Adiciona o terminador null
 
     ; 2.1 Calcular o comprimento do nome
     sub esi, name_buffer     ; Comprimento da string = posição atual - início
-    mov edx, esi             ; Salva o comprimento em edx  
+    mov edx, esi             ; Salva o comprimento em edx
 
-    ; Exibindo o nome do usuário (usando sys_write)
-    mov eax, 4           ; syscall: sys_write
-    mov ebx, 1           ; file descriptor: stdout (saída padrão)
-    ;mov edx, 32          ; número máximo de bytes a escrever
-    int 0x80             ; chamada ao kernel
+    ; Escreve o nome do usuário
+    mov eax, 4               ; syscall: sys_write
+    mov ebx, 1               ; file descriptor: stdout
+    mov ecx, name_buffer     ; Endereço do buffer com o nome
+    ; edx já contém o comprimento do nome
+    int 0x80                 ; Chamada ao kernel
 
-    mov eax, 4           ; syscall: sys_write
-    mov ebx, 1           ; file descriptor: stdout (saída padrão)
-    mov edx, welcome_msg_len          ; número máximo de bytes a escrever
-    mov ecx, welcome_msg ;
-    int 0x80             ; chamada ao kernel
+    ; Escreve a mensagem ", Seja Bem-vindo!"
+    mov eax, 4               ; syscall: sys_write
+    mov ebx, 1               ; file descriptor: stdout
+    mov ecx, welcome_msg     ; Endereço da string final
+    mov edx, 20              ; Tamanho da string ", Seja Bem-vindo!"
+    int 0x80                 ; Chamada ao kernel
 
-finalizar: 
-    ; Finaliza o programa
-    mov eax, 1           ; syscall: sys_exit
-    xor ebx, ebx         ; código de saída 0
-    int 0x80             ; chamada ao kernel
+    ; 4. Encerrar o programa
+    mov eax, 1               ; syscall: sys_exit
+    xor ebx, ebx             ; Código de saída: 0
+    int 0x80                 ; Chamada ao kernel
