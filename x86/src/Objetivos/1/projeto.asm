@@ -26,6 +26,8 @@ nome_usuario:
     mov edx, 32          ; número máximo de bytes a ler (tamanho do buffer)
     int 0x80             ; chamada ao kernel
 
+    mov byte [ecx], 0        ; Adiciona o terminador null   
+
     ; Exibindo o nome do usuário (usando sys_write)
     mov eax, 4           ; syscall: sys_write
     mov ebx, 1           ; file descriptor: stdout (saída padrão)
