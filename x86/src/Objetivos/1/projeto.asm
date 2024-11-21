@@ -21,7 +21,7 @@ _start:
 nome_usuario:
     mov eax, 3  ; ler terminal
     mov ebx, 0  ; sdtin
-    mov ecx, my_string   ; endereço de memória para armazenar a entrada
+    mov ecx, name_buffer   ; endereço de memória para armazenar a entrada
     mov edx, 64          ; número máximo de bytes a ler (tamanho do buffer)
     int 0x80             ; chamada ao kernel
 
