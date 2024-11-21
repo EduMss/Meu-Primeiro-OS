@@ -16,6 +16,8 @@ arm-none-eabi-ld -Ttext=0x10000 -o boot.elf boot.o
 arm-none-eabi-objcopy -O binary boot.elf boot.bin
 qemu-system-arm -M virt -m 128M -nographic -device loader,file=boot.bin,addr=0x10000
 
+qemu-system-arm -M virt -device loader,file=boot.bin,addr=0x10000
+
 Usando o aarch64 tambem funciona:
 qemu-system-aarch64 -M virt -m 128M -nographic -device loader,file=boot.bin,addr=0x10000
 
