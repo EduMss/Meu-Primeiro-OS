@@ -44,11 +44,11 @@ _start:
 
 .verificar:
     cmp byte [esi], 0xA ; em hexadecimal 0xA e '\n'
-    je abrirArquivo; se tiver ele vai remover no "imprimir"
+    je .abrirArquivo; se tiver ele vai remover no "imprimir"
     inc esi ; avançar para o proximo caractere do esi
     cmp byte [esi], 0 ; verificar se não chegamos no final do texto
-    je abrirArquivo; se for 0, vai executar o "imprimir"
-    jmp verificar
+    je .abrirArquivo; se for 0, vai executar o "imprimir"
+    jmp .verificar
 
 .abrirArquivo:
     ; Calcular o comprimento do nome
