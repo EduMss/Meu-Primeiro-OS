@@ -1,0 +1,1 @@
+Eu ate agora so estou fazendo os exemplos em 32bits, esse "projeto 64bits" ja e uma palinha para depois eu aprender!
