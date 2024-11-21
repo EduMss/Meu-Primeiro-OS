@@ -6,7 +6,7 @@ section .bss
     name_buffer resb 32          ; Buffer para armazenar o nome do usuário (máx 31 chars + null)
 
 section .text
-global _start
+    global _start
 
 _start:
     ; 1. Obter o nome do usuário
@@ -18,6 +18,7 @@ _start:
 
     ; 2. Remover a nova linha digitada pelo usuário
     mov esi, name_buffer     ; Ponteiro para o início do buffer
+
 remove_newline:
     cmp byte [esi], 0xA      ; Verifica se é '\n' (nova linha)
     je add_null              ; Se for, substitui por 0 (null terminator)
@@ -25,6 +26,7 @@ remove_newline:
     je add_null              ; Se for, pula para o fim
     inc esi                  ; Avança para o próximo caractere
     jmp remove_newline       ; Continua verificando
+
 add_null:
     ; 3. Concatenar as strings e exibir
     ; Escreve a mensagem "Olá "
@@ -36,7 +38,6 @@ add_null:
 
 
     mov byte [esi], 0        ; Adiciona o terminador null
-
     ; 2.1 Calcular o comprimento do nome
     sub esi, name_buffer     ; Comprimento da string = posição atual - início
     mov edx, esi             ; Salva o comprimento em edx
