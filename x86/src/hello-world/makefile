@@ -14,9 +14,9 @@ LDFLAGS = -m elf_i386    # Formato do linking (32 bits)
 
 # Regra principal: gera o executável
 $(EXECUTABLE): $(SOURCE)
-    $(AS) $(ASFLAGS) -o program.o $(SOURCE)  # Compila o Assembly para um arquivo objeto
-    $(LD) $(LDFLAGS) -o $(EXECUTABLE) program.o  # Linka o arquivo objeto e gera o executável
+	$(AS) $(ASFLAGS) -o program.o $(SOURCE)  # Compila o Assembly para um arquivo objeto
+	$(LD) $(LDFLAGS) -o $(EXECUTABLE) program.o  # Linka o arquivo objeto e gera o executável
 
 # Regra para limpar os arquivos intermediários
 clean:
-    rm -f program.o $(EXECUTABLE)
+	rm -f program.o $(EXECUTABLE)
