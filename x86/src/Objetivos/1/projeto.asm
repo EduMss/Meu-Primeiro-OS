@@ -1,5 +1,6 @@
 section .data
     hello_msg db "Olá ", 0       ; Prefixo da mensagem
+    hello_msg_len equ $ - hello_msg
     welcome_msg db ", Seja Bem-vindo!", 0xA, 0 ; Sufixo da mensagem com nova linha
     welcome_msg_len equ $ - welcome_msg
     Fist_msg db "Informe seu nome: ", 0;0xA    ; Mensagem peguntando o nome
@@ -22,6 +23,13 @@ _start:
 
 
 nome_usuario:
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, hello_msg            ; ponteiro para a mensagem
+    mov edx, hello_msg_len                 ; comprimento da mensagem
+    int 0x80                     ; chamada ao kernel
+
+
     mov eax, 3  ; ler terminal
     mov ebx, 0  ; sdtin
     mov ecx, name_buffer   ; endereço de memória para armazenar a entrada
