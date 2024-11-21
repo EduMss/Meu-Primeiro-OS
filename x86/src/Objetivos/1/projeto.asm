@@ -4,7 +4,7 @@ section .data
     name_buffer resb 32          ; Buffer para armazenar o nome do usuário (máx 31 chars + null)
 
 section .text
-global _start
+    global _start
 
 _start:
     ; 1. Obter o nome do usuário
