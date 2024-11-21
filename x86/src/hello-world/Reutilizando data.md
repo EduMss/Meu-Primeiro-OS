@@ -179,7 +179,7 @@ Seção `.bss`:
 
 - `mov edx, 64`: O `edx` contém o número máximo de bytes a serem lidos (neste caso, 64 bytes).
 
-- `int 0x80`: Chama o kernel para realizar a syscall. O kernel lê até 64 bytes da entrada padrão e armazena no buffer `my_string`.
+- `int 0x80`: Chama o kernel para realizar a syscall. O kernel lê até 64 bytes da entrada padrão e armazena no buffer `my_string`. `int`significa interrupt (interrupção), quando você faz `int 0x80`, está dizendo ao processador disparar a interrupção 80h (em hexadecimal). No Linux, a interrupção 80h é usada para invocar syscalls (chamadas de sistema). Essa chamada ao kernel fala pro sistema operacional o seguinte: "Execute a syscall cujo número está armazenado no registrador `eax`". O valor de eax define qual operação será realizada, e os outros registradores (como `ebx`,`ecx`, `edx`, etc...) fornecem os parâmetros necessários para essa operação.
 
 
 *Exibindo a string:*

@@ -31,6 +31,8 @@ Os registradores são usados para armazenar dados temporários durante a execuç
 
 - Em algumas instruções, como string operations (operações de strings), ecx também é utilizado para armazenar o número de bytes a serem processados.
 
+- `ecx` é usado como um ponteiro para o dado que será manipulado pela `syscall write`
+
 *`edx` (Extended Data Register):*
 
 - O `edx` é geralmente usado para armazenar dados em operações mais complexas, como multiplicação e divisão.
@@ -38,6 +40,8 @@ Os registradores são usados para armazenar dados temporários durante a execuç
 - Quando você realiza uma multiplicação de números grandes (em termos de 32 bits ou mais), o `edx` pode armazenar a parte mais significativa do resultado.
 
 - Ele também é usado em algumas instruções de I/O, como o comando in e out.
+
+- `edx` é usado para informar o tamanho da "string" que será manipulado pela `syscall write`
 
 Exemplos práticos:
 - `eax`: Usado para armazenar o valor de retorno de uma função ou o resultado de uma operação aritmética.
