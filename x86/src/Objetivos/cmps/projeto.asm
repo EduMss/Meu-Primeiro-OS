@@ -32,23 +32,11 @@ usuario_input:
 
 verificar:
     cmp byte [esi], 0x72 ; em hexadecimal 0x72 e 'r'
-    je imprimir_true ; se tiver r, vai executar o "imprimir_true"
+    jne imprimir_false ; se tiver r, vai executar o "imprimir_true"
     inc esi ; avançar para o proximo caractere do esi
     cmp byte [esi], 0 ; verificar se não chegamos no final do texto
     je imprimir_false ; se for 0, vai executar o "imprimir_false"
     jmp verificar
-
-imprimir_false:
-    mov eax, 4 
-    mov ebx, 1
-    mov ecx, false_msg
-    mov edx, false_msg_len
-    int 0x80
-
-    ; Finaliza o programa
-    mov eax, 1           ; syscall: sys_exit
-    xor ebx, ebx         ; código de saída 0
-    int 0x80             ; chamada ao kernel
 
 
 imprimir_true:
@@ -64,3 +52,14 @@ imprimir_true:
     int 0x80             ; chamada ao kernel
 
 
+imprimir_false:
+    mov eax, 4 
+    mov ebx, 1
+    mov ecx, false_msg
+    mov edx, false_msg_len
+    int 0x80
+
+    ; Finaliza o programa
+    mov eax, 1           ; syscall: sys_exit
+    xor ebx, ebx         ; código de saída 0
+    int 0x80             ; chamada ao kernel
