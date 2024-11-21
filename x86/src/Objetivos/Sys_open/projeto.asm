@@ -5,7 +5,7 @@ section .data
 
 section .bss
     buffer resb 100                ; Buffer para armazenar a leitura (100 bytes)
-    file_buffer resb 200
+    file_buffer dd 0
 
 section .text
     global _start
