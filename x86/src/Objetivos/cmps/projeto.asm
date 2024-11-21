@@ -3,9 +3,9 @@ section .data
     inicial_msg_len equ $ - inicial_msg
     index_r dd 0
 
-    true_msg db "Tem 'r' no texto"
+    true_msg db "Tem 'r' no texto", 0xA
     true_msg_len equ $ - true_msg
-    false_msg db "Não tem 'r' no texto"
+    false_msg db "Não tem 'r' no texto", 0xA
     false_msg_len equ $ - false_msg
 
 section .bss
@@ -50,7 +50,7 @@ imprimir_true:
     mov eax, 4 
     mov ebx, 1
     mov ecx, esi
-    mov edx, 64
+    mov edx, 2
     int 0x80
 
     ; Finaliza o programa
