@@ -69,9 +69,9 @@ _start:
     test eax, eax                 ; Se eax for negativo, ocorreu um erro
     js .criar_arquivo                      ; Se erro, ele vai criar o arquivo, depois vai dar contninuidade no codigo
 
-    call .continuidade
+    jmp .continuidade
 
-    jmp .exit
+    ;jmp .exit
 
 
 .criar_arquivo:
@@ -101,7 +101,8 @@ _start:
     ;mov eax, 1                    ; syscall número 1 para exit
     ;xor ebx, ebx                  ; código de saída (0)
     ;int 0x80                      ; chamada ao kernel
-    ret                         ; retornar para onde ele foi chamado via call
+    ;ret                         ; retornar para onde ele foi chamado via call
+    jmp .exit
 
 .exit:
     ; Finalizar o programa
