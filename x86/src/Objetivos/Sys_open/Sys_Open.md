@@ -88,3 +88,15 @@ r-x	        101	        5
 rw-	        110	        6
 rwx	        111	        7
 
+
+Abrindo somente no modo leitura:
+
+```
+_start:
+    ; Abrir o arquivo
+    mov eax, 5                    ; syscall número 5 para open
+    mov ebx, filename             ; nome do arquivo (caminho absoluto)
+    mov ecx, 0                    ; flags (O_RDONLY, apenas leitura)
+    mov edx, 0                    ; permissões (não usado para O_RDONLY)
+    int 0x80                      ; chamada ao kernel
+```
