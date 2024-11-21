@@ -1,14 +1,24 @@
 section .data
     hello_msg db "Olá ", 0       ; Prefixo da mensagem
     welcome_msg db ", Seja Bem-vindo!", 0xA, 0 ; Sufixo da mensagem com nova linha
+    Fist_msg db "Informe seu nome: ", 0xA    ; Mensagem peguntando o nome
+    len equ $ - Fist_msg              ; Comprimento da mensagem
 
 section .bss
     name_buffer resb 32          ; Buffer para armazenar o nome do usuário (máx 31 chars + null)
+    
 
 section .text
 global _start
 
 _start:
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, Fist_msg                 ; ponteiro para a mensagem
+    mov edx, len                 ; comprimento da mensagem
+    int 0x80                     ; chamada ao kernel
+
+nome_usuario:
     ; 1. Obter o nome do usuário
     mov eax, 3               ; syscall: sys_read
     mov ebx, 0               ; file descriptor: stdin
@@ -18,6 +28,7 @@ _start:
 
     ; 2. Remover a nova linha digitada pelo usuário
     mov esi, name_buffer     ; Ponteiro para o início do buffer
+
 remove_newline:
     cmp byte [esi], 0xA      ; Verifica se é '\n' (nova linha)
     je add_null              ; Se for, substitui por 0 (null terminator)
@@ -25,6 +36,7 @@ remove_newline:
     je add_null              ; Se for, pula para o fim
     inc esi                  ; Avança para o próximo caractere
     jmp remove_newline       ; Continua verificando
+
 add_null:
     mov byte [esi], 0        ; Adiciona o terminador null
 
