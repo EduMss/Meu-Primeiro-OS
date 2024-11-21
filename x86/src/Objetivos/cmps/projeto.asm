@@ -18,4 +18,8 @@ _start:
 
 
 
-    
+finalizar: 
+    ; Finaliza o programa
+    mov eax, 1           ; syscall: sys_exit
+    xor ebx, ebx         ; código de saída 0
+    int 0x80             ; chamada ao kernel
