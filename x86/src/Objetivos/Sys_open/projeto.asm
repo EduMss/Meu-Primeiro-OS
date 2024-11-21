@@ -24,7 +24,7 @@ _start:
     test eax, eax                 ; Se eax for negativo, ocorreu um erro
     js .exit                      ; Se erro, sair
 
-    mov file_buffer, eax
+    mov [file_buffer], eax
     ; Ler do arquivo
     mov eax, 3          ; syscall: sys_read
     mov ecx, buffer     ; ponteiro para o buffer de leitura
