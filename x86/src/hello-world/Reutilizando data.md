@@ -126,3 +126,85 @@ Observação:
 - A string `my_string` não é uma "variável" como em linguagens de mais alto nível, mas um endereço de memória que armazena a sequência de caracteres.
 
 Portanto, se você deseja salvar uma string em memória, basta colocar a sequência de bytes (os caracteres) em um espaço de memória e, em seguida, usá-la como mostrado.
+
+
+<h1>Exemplo ChatGpt usando String 2 </h1>
+
+Sim, é possível capturar a entrada do usuário no terminal e armazená-la em `my_string`. Para isso, você pode usar uma syscall de leitura (como `sys_read`) para capturar a entrada do usuário e armazená-la em um espaço de memória que você tenha definido para a string. Depois, você pode usar a string capturada da mesma forma que discutimos antes.
+
+A syscall `sys_read` lê dados da entrada padrão (stdin, geralmente o terminal) e os coloca em um buffer de memória. Vamos ver como isso pode ser feito.
+
+*Exemplo de como capturar o nome do usuário e armazená-lo em `my_string`:*
+```
+section .bss
+    my_string resb 64  ; Reserva 64 bytes de memória para armazenar o nome do usuário
+
+section .text
+    global _start
+
+_start:
+    ; Lê a entrada do usuário (nome) e armazena em my_string
+    mov eax, 3           ; syscall: sys_read
+    mov ebx, 0           ; file descriptor: stdin (entrada padrão)
+    mov ecx, my_string   ; endereço de memória para armazenar a entrada
+    mov edx, 64          ; número máximo de bytes a ler (tamanho do buffer)
+    int 0x80             ; chamada ao kernel
+
+    ; Agora, 'my_string' contém o nome digitado pelo usuário
+    ; Você pode exibir ou manipular essa string como necessário
+
+    ; Exibindo o nome do usuário (usando sys_write)
+    mov eax, 4           ; syscall: sys_write
+    mov ebx, 1           ; file descriptor: stdout (saída padrão)
+    mov edx, 64          ; número máximo de bytes a escrever
+    int 0x80             ; chamada ao kernel
+
+    ; Finaliza o programa
+    mov eax, 1           ; syscall: sys_exit
+    xor ebx, ebx         ; código de saída 0
+    int 0x80             ; chamada ao kernel
+```
+*Explicação do código:*
+Seção `.bss`:
+
+- `my_string resb 64`: Reservamos 64 bytes de memória para armazenar a entrada do usuário. `resb` (reserve byte) é usado para reservar um espaço de memória, mas sem inicializá-lo com um valor. Este será o "buffer" onde vamos armazenar o nome do usuário digitado.
+
+Seção `.text`:
+
+- `mov eax, 3`: Colocamos o número da syscall `sys_read` em `eax`. A syscall `sys_read` lê dados de um arquivo ou da entrada padrão.
+
+- `mov ebx, 0`: O `ebx` contém o file descriptor da entrada padrão (stdin), que é `0`.
+
+- `mov ecx, my_string`: O `ecx` contém o endereço onde os dados lidos serão armazenados, que é o endereço de `my_string`.
+
+- `mov edx, 64`: O `edx` contém o número máximo de bytes a serem lidos (neste caso, 64 bytes).
+
+- `int 0x80`: Chama o kernel para realizar a syscall. O kernel lê até 64 bytes da entrada padrão e armazena no buffer `my_string`.
+
+
+*Exibindo a string:*
+
+- Depois de ler a entrada, você pode exibir o conteúdo de `my_string` usando a syscall `sys_write`, como mostramos no exemplo anterior.
+
+- O `mov edx, 64` especifica que até 64 bytes da memória devem ser exibidos. Isso é um limite, para garantir que o programa não tente exibir mais bytes do que o que foi lido.
+
+
+*Finalizando o programa:*
+
+- O código de saída `sys_exit` é chamado para finalizar o programa com o valor 0 (indicando sucesso).
+
+
+*Considerações:*
+- Tamanho do buffer: No exemplo, usamos 64 bytes para armazenar a entrada. Isso pode ser ajustado conforme necessário. Se o nome do usuário for maior que isso, ele será cortado, então você pode aumentar o tamanho se desejar aceitar entradas mais longas.
+
+- Entrada e saída: Este exemplo captura a entrada do usuário via terminal, mas você também pode manipular o que foi digitado ou validar o conteúdo da string depois de capturá-la.
+
+*Possíveis melhorias:*
+
+- Finalizando a string corretamente: Ao ler a entrada do usuário, a string pode não terminar automaticamente com um caractere nulo (como o esperado em strings C-style). Nesse caso, seria interessante adicionar um código para garantir que o caractere nulo seja adicionado no final da string, se necessário.
+```
+    mov byte [my_string + eax], 0  ; Coloca o caractere nulo no final da string lida
+```
+
+
+Esse tipo de operação pode ser útil se você for manipular ou passar a string para funções que esperam um término com `0x00`.
