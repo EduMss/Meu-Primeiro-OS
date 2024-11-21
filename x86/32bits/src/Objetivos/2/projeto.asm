@@ -81,8 +81,7 @@ _start:
     ;mov eax, 1                    ; syscall número 1 para exit
     ;xor ebx, ebx                  ; código de saída (0)
     ;int 0x80                      ; chamada ao kernel
-
-
+    ret
 
 .exit:
     ; Finalizar o programa
