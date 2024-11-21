@@ -5,44 +5,44 @@ Aqui está uma explicação detalhada e simplificada do código Assembly que imp
 <h2>1. Estrutura Básica do Código</h2>
 O código está dividido em duas seções principais:
 
-.data: Contém os dados, como a mensagem a ser exibida.
-.text: Contém o código que será executado.
+`.data:` Contém os dados, como a mensagem a ser exibida.
+`.text:` Contém o código que será executado.
 
 
 <h2>2. Seção .data</h2>
 Esta seção armazena os dados necessários para a execução do programa.
-
 ```
 section .data
     msg db "Hello, World!", 0xA  ; Mensagem a ser exibida, seguida de uma nova linha
     len equ $ - msg              ; Comprimento da mensagem
 ```
 
-msg:
+`msg:`
 Cria uma mensagem de texto "Hello, World!", terminada com 0xA (o código ASCII para "nova linha", ou \n), para que o texto pule para a linha seguinte após ser exibido.
 db significa "define byte", usado para armazenar bytes em memória.
 
-len:
+`len:`
 Calcula o comprimento da mensagem.
 
-$ refere-se ao endereço atual no código.
-$ - msg calcula o número de bytes desde o início da mensagem até o final (isto é, o tamanho da mensagem).
+`$` refere-se ao endereço atual no código.
+`$ - msg` calcula o número de bytes desde o início da mensagem até o final (isto é, o tamanho da mensagem).
 
 
 <h2>3. Seção .text</h2>
+
 Esta seção contém o código que será executado.
 ```
 section .text
     global _start                ; Define o ponto de entrada do programa
 ```
 
-global _start:
-Indica ao montador que a função _start é o ponto inicial do programa. É a primeira coisa que o sistema operacional executa ao rodar o programa.
+`global _start:`
+Indica ao montador que a função `_start` é o ponto inicial do programa. É a primeira coisa que o sistema operacional executa ao rodar o programa.
 
 
 <h2>4. Código do Programa</h2>
 
-O código dentro da função _start faz duas operações principais: imprimir a mensagem e sair do programa.
+O código dentro da função `_start` faz duas operações principais: imprimir a mensagem e sair do programa.
 
 <h3>a. Imprimir a mensagem</h3>
 ```
@@ -54,16 +54,21 @@ _start:
     int 0x80                     ; chamada ao kernel
 ```
 
-mov eax, 4:
-Coloca o número 4 no registrador eax, indicando a syscall sys_write. Essa é a chamada do sistema usada para escrever dados.
-mov ebx, 1:
+`mov eax, 4:`
+Coloca o número 4 no registrador `eax`, indicando a syscall sys_write. Essa é a chamada do sistema usada para escrever dados.
+
+`mov ebx, 1:`
 Define o "file descriptor" como 1, que corresponde à saída padrão (stdout, ou terminal).
-mov ecx, msg:
+
+`mov ecx, msg:`
 Define o registrador ecx como o endereço da mensagem armazenada em msg.
-mov edx, len:
+
+`mov edx, len:`
 Define o comprimento da mensagem como o valor no registrador edx.
-int 0x80:
+
+`int 0x80:`
 Interrupção do sistema para executar a syscall. O código no registrador eax (4, no caso) diz ao kernel qual operação realizar.
+
 O kernel escreve a mensagem no terminal usando os dados fornecidos.
 
 <h3>b. Sair do programa</h3>
@@ -73,12 +78,15 @@ O kernel escreve a mensagem no terminal usando os dados fornecidos.
     int 0x80                     ; chamada ao kernel
 ```
 
-mov eax, 1:
-Coloca o número 1 no registrador eax, indicando a syscall sys_exit. Essa é a chamada do sistema usada para encerrar o programa.
-xor ebx, ebx:
-Zera o registrador ebx, indicando o código de saída do programa (0 significa sucesso).
-int 0x80:
+`mov eax, 1:`
+Coloca o número 1 no registrador `eax`, indicando a syscall sys_exit. Essa é a chamada do sistema usada para encerrar o programa.
+
+`xor ebx, ebx:`
+Zera o registrador `ebx`, indicando o código de saída do programa (0 significa sucesso).
+
+`int 0x80:`
 Interrupção do sistema para executar a syscall, finalizando o programa.
+
 Resumo do Funcionamento
 O programa usa a syscall sys_write para exibir "Hello, World!" no terminal.
 Depois de escrever a mensagem, usa a syscall sys_exit para encerrar o programa com sucesso.
