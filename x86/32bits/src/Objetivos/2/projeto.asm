@@ -27,7 +27,7 @@ _start:
     mov edx, inicial_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
-    jump .VerificarArquivo
+    call .VerificarArquivo
 
 
 .VerificarArquivo:
