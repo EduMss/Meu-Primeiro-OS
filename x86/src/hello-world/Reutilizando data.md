@@ -169,7 +169,7 @@ Seção `.bss`:
 
 - `my_string resb 64`: Reservamos 64 bytes de memória para armazenar a entrada do usuário. `resb` (reserve byte) é usado para reservar um espaço de memória, mas sem inicializá-lo com um valor. Este será o "buffer" onde vamos armazenar o nome do usuário digitado.
 
-Seção `.text`:
+*Seção `.text`:*
 
 - `mov eax, 3`: Colocamos o número da syscall `sys_read` em `eax`. A syscall `sys_read` lê dados de um arquivo ou da entrada padrão.
 
