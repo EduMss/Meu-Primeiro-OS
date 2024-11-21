@@ -26,8 +26,9 @@ db significa "define byte", usado para armazenar bytes em memória.
 `len:`
 Calcula o comprimento da mensagem.
 
-`$` refere-se ao endereço atual no código.
-`$ - msg` calcula o número de bytes desde o início da mensagem até o final (isto é, o tamanho da mensagem).
+- `$` refere-se ao endereço atual no código.
+
+- `$ - msg` calcula o número de bytes desde o início da mensagem até o final (isto é, o tamanho da mensagem).
 
 <br/>
 
@@ -51,6 +52,7 @@ O código dentro da função `_start` faz duas operações principais: imprimir 
 <br/>
 
 <h3>a. Imprimir a mensagem</h3>
+
 ```
 _start:
     mov eax, 4                   ; syscall: sys_write
@@ -80,6 +82,7 @@ O kernel escreve a mensagem no terminal usando os dados fornecidos.
 <br/>
 
 <h3>b. Sair do programa</h3>
+
 ```
     mov eax, 1                   ; syscall: sys_exit
     xor ebx, ebx                 ; código de saída: 0
