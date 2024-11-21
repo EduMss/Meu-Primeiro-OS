@@ -31,11 +31,11 @@ usuario_input:
     mov esi, texto_buffer
 
 verificar:
-    cmp byte [esi], 0x72
-    je imprimir_true
+    cmp byte [esi], 0x72 ; em hexadecimal 0x72 e 'r'
+    je imprimir_true ; se tiver r, vai executar o "imprimir_true"
     inc esi ; avançar para o proximo caractere do esi
     cmp byte [esi], 0 ; verificar se não chegamos no final do texto
-    je imprimir_false
+    je imprimir_false ; se for 0, vai executar o "imprimir_false"
     jmp verificar
 
 imprimir_false:
