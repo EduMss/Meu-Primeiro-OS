@@ -1,14 +1,3 @@
-vazio:
-```
-código
-```
-
-
-asm:
-```asm
-código
-```
-
 'Curso' e Repositorio usado como aprendisado:
 
 https://codeberg.org/blau_araujo/assembly-nasm-x86_64
