@@ -71,7 +71,7 @@ _start:
 
     call .continuidade
 
-    call .exit
+    .exit
 
 
 .criar_arquivo:
