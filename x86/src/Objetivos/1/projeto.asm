@@ -26,6 +26,10 @@ remove_newline:
 add_null:
     mov byte [esi], 0        ; Adiciona o terminador null
 
+    ; 2.1 Calcular o comprimento do nome
+    sub esi, name_buffer     ; Comprimento da string = posição atual - início
+    mov edx, esi             ; Salva o comprimento em edx
+
     ; 3. Concatenar as strings e exibir
     ; Escreve a mensagem "Olá "
     mov eax, 4               ; syscall: sys_write
@@ -38,7 +42,7 @@ add_null:
     mov eax, 4               ; syscall: sys_write
     mov ebx, 1               ; file descriptor: stdout
     mov ecx, name_buffer     ; Endereço do buffer com o nome
-    mov edx, esi - name_buffer ; Tamanho do nome (posição atual - início)
+    ; edx já contém o comprimento do nome
     int 0x80                 ; Chamada ao kernel
 
     ; Escreve a mensagem ", Seja Bem-vindo!"
