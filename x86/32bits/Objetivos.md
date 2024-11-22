@@ -3,7 +3,7 @@ Configurar um makefile para aprender usar esse recurso tambem!
 1º Projeto simples (FEITO)
 Onde vai aparecer uma mensagem no terminal pedindo para o usuario inserir o seu nome, e será printado "Olá {fulado}, Seja Bem-vindo!"
 
-2º Segunda parte
+2º Segunda parte (FEITO)
 Ele ira criar um .txt como o seu nome(ou o que foi digitado) e printar o diretorio do arquivo salvo
 
 3º parte
