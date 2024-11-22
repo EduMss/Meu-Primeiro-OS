@@ -59,7 +59,7 @@ _start:
     ; Abrir o arquivo para leitura
     mov eax, 5          ; syscall: sys_open
     mov ebx, filename   ; nome do arquivo
-    mov ecx, 2       ; O_FLAGS: O_WRONLY (2) | Leitura e escrita, O_CREAT (0x40) | criar o arquivos se não existir
+    mov ecx, 0x402       ; O_FLAGS: O_WRONLY (2) | Leitura e escrita, O_CREAT (0x40) | criar o arquivos se não existir
     int 0x80            ; chamada ao kernel
 
     mov [file_buffer], eax
@@ -72,7 +72,7 @@ _start:
 
 
 .criar_arquivo:
-    ; Abrir o arquivo para leitura
+    ; criando arquivo
     mov eax, 5          ; syscall: sys_open
     mov ebx, filename   ; nome do arquivo
     mov ecx, 0x40       ; O_FLAGS:  O_CREAT (0x40) | criar o arquivos se não existir
@@ -95,7 +95,7 @@ _start:
     ; Abrir o arquivo para leitura
     mov eax, 5          ; syscall: sys_open
     mov ebx, filename   ; nome do arquivo
-    mov ecx, 2       ; O_FLAGS: O_WRONLY (2) | Leitura e escrita, O_CREAT (0x40) | criar o arquivos se não existir
+    mov ecx, 0x402        ; O_FLAGS: O_WRONLY (2) | Somente escrita; O_APPEND (0x400) | adicionad
     int 0x80            ; chamada ao kernel
 
     mov [file_buffer], eax
