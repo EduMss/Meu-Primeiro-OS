@@ -63,7 +63,7 @@ _start:
     mov ebx, filename   ; nome do arquivo
     mov ecx, 2       ; O_FLAGS: O_WRONLY (2) | Leitura e escrita, O_CREAT (0x40) | criar o arquivos se não existir
     ;mov edx, 0777       ; chmod 777
-    mov edx, 0o777      ; chmod 0777 (octal) - permissões completas
+    mov edx, 0777o      ; chmod 0777 (octal) - permissões completas
     int 0x80            ; chamada ao kernel
     mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
 
@@ -82,7 +82,7 @@ _start:
     mov ebx, filename   ; nome do arquivo
     mov ecx, 0x40       ; O_FLAGS:  O_CREAT (0x40) | criar o arquivos se não existir
     ;mov edx, 0777       ; chmod 777
-    mov edx, 0o777      ; chmod 0777 (octal) - permissões completas
+    mov edx, 0777o      ; chmod 0777 (octal) - permissões completas
     int 0x80            ; chamada ao kernel
     mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
 
