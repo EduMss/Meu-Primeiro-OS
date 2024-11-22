@@ -1,8 +1,8 @@
 section .data
     file_buffer dd 0
     
-    nova_msg db "Novo Mundo!", 0xA
-    nova_msg_len equ $ - nova_msg
+    finalizando_msg db "\nFinalizando tarefa!", 0xA
+    finalizando_msg_len equ $ - finalizando_msg
     
     criado_msg db "ArquivoCriado!", 0xA
     criado_msg_len equ $ - criado_msg
@@ -66,7 +66,7 @@ _start:
     ;mov edx, 0777       ; chmod 777
     ;mov edx, 0777o      ; chmod 0777 (octal) - permissões completas
     int 0x80            ; chamada ao kernel
-    mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
+    ;mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
 
     mov [file_buffer], eax
 
@@ -88,9 +88,8 @@ _start:
     ;mov edx, 0777       ; chmod 777
     mov edx, 0o777      ; chmod 0777 (octal) - permissões completas (não funciona corretamente, usa o sys_chmod para complementar)
     int 0x80            ; chamada ao kernel
-    mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
+    ;mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
 
-    mov [file_buffer], eax
 
     ; Ajustar permissões manualmente 777
     mov eax, 15         ; syscall: sys_chmod
@@ -98,6 +97,7 @@ _start:
     mov ecx, 0o644      ; permissões exatas desejadas (-rw-r--r--)
     int 0x80            ; chamada ao kernel
 
+    ;mov [file_buffer], eax
 
     ; printando
     mov eax, 4
@@ -105,6 +105,8 @@ _start:
     mov ecx, criado_msg          ; ponteiro para a mensagem
     mov edx, criado_msg_len      ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
+
+    jmp .abrirArquivo
 
 
 .conteudo:
@@ -131,8 +133,8 @@ _start:
 .continuidade:
     mov eax, 4
     mov ebx, 1
-    mov ecx, nova_msg            ; ponteiro para a mensagem
-    mov edx, nova_msg_len                 ; comprimento da mensagem
+    mov ecx, finalizando_msg            ; ponteiro para a mensagem
+    mov edx, finalizando_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
     ; Finalizar o programa
