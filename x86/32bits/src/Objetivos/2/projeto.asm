@@ -7,8 +7,6 @@ section .data
     criado_msg db "ArquivoCriado!", 0xA
     criado_msg_len equ $ - criado_msg
 
-    ;filename db "example.txt", 0 
-
     inicial_msg db "Nome do arquivo desejado: ", 0
     inicial_msg_len equ $ - inicial_msg
 
@@ -54,7 +52,6 @@ _start:
 .abrirArquivo:
     ; Calcular o comprimento do nome
     sub esi, filename   ; Comprimento da string = posição atual - início
-    ;mov edx, esi        ; Salva o comprimento em edx
 
     ; Cortar a string
     mov byte [esi + filename], 0  ; Insere o terminador nulo no final da substring
@@ -63,10 +60,7 @@ _start:
     mov eax, 5          ; syscall: sys_open
     mov ebx, filename   ; nome do arquivo
     mov ecx, 2       ; O_FLAGS: O_WRONLY (2) | Leitura e escrita, O_CREAT (0x40) | criar o arquivos se não existir
-    ;mov edx, 0777       ; chmod 777
-    ;mov edx, 0777o      ; chmod 0777 (octal) - permissões completas
     int 0x80            ; chamada ao kernel
-    ;mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
 
     mov [file_buffer], eax
 
@@ -74,10 +68,7 @@ _start:
     test eax, eax                 ; Se eax for negativo, ocorreu um erro
     js .criar_arquivo                      ; Se erro, ele vai criar o arquivo, depois vai dar contninuidade no codigo
 
-
     call .conteudo
-
-    ;jmp .exit
 
 
 .criar_arquivo:
@@ -85,19 +76,14 @@ _start:
     mov eax, 5          ; syscall: sys_open
     mov ebx, filename   ; nome do arquivo
     mov ecx, 0x40       ; O_FLAGS:  O_CREAT (0x40) | criar o arquivos se não existir
-    ;mov edx, 0777       ; chmod 777
     mov edx, 0o777      ; chmod 0777 (octal) - permissões completas (não funciona corretamente, usa o sys_chmod para complementar)
     int 0x80            ; chamada ao kernel
-    ;mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
-
 
     ; Ajustar permissões manualmente 777
     mov eax, 15         ; syscall: sys_chmod
     mov ebx, filename   ; nome do arquivo
     mov ecx, 0o644      ; permissões exatas desejadas (-rw-r--r--)
     int 0x80            ; chamada ao kernel
-
-    ;mov [file_buffer], eax
 
     ; printando
     mov eax, 4
@@ -106,7 +92,13 @@ _start:
     mov edx, criado_msg_len      ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
-    jmp .abrirArquivo
+    ; Abrir o arquivo para leitura
+    mov eax, 5          ; syscall: sys_open
+    mov ebx, filename   ; nome do arquivo
+    mov ecx, 2       ; O_FLAGS: O_WRONLY (2) | Leitura e escrita, O_CREAT (0x40) | criar o arquivos se não existir
+    int 0x80            ; chamada ao kernel
+
+    mov [file_buffer], eax
 
 
 .conteudo:
@@ -120,8 +112,6 @@ _start:
     ; Escrever no arquivo
     mov eax, 4                    ; syscall número 4 para write
     mov ebx, [file_buffer]        ; file descriptor retornado pela syscall open
-    ;mov ecx, file_conteudo       ; mensagem para ser escrita
-    ;mov edx, 200                 ; comprimento da mensagem (13 bytes)
     int 0x80                      ; chamada ao kernel
 
     ; Fechar o arquivo
@@ -137,11 +127,6 @@ _start:
     mov edx, finalizando_msg_len                 ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
-    ; Finalizar o programa
-    ;mov eax, 1                    ; syscall número 1 para exit
-    ;xor ebx, ebx                  ; código de saída (0)
-    ;int 0x80                      ; chamada ao kernel
-    ;ret                         ; retornar para onde ele foi chamado via call
     jmp .exit
 
 .exit:
