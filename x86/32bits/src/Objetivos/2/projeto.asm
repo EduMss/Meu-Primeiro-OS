@@ -1,7 +1,7 @@
 section .data
     file_buffer dd 0
     
-    finalizando_msg db "\nFinalizando tarefa!", 0xA
+    finalizando_msg db "Arquivo Salvo!", 0xA
     finalizando_msg_len equ $ - finalizando_msg
     
     criado_msg db "ArquivoCriado!", 0xA
@@ -10,9 +10,11 @@ section .data
     inicial_msg db "Nome do arquivo desejado: ", 0
     inicial_msg_len equ $ - inicial_msg
 
+    conteudo_msg db "Coteudo desejado para adicionar: ", 0
+    conteudo_msg_len equ $ - conteudo_msg
+
 
 section .bss
-    buffer resb 100                ; Buffer para armazenar a leitura (100 bytes)
     filename resb 100
     file_conteudo resb 200
     
@@ -59,7 +61,7 @@ _start:
     ; Abrir o arquivo para leitura
     mov eax, 5          ; syscall: sys_open
     mov ebx, filename   ; nome do arquivo
-    mov ecx, 0x402       ; O_FLAGS: O_WRONLY (2) | Leitura e escrita, O_CREAT (0x40) | criar o arquivos se não existir
+    mov ecx, 0x402      ; O_FLAGS: O_WRONLY (2) | Somente escrita, vai sobrescrever o conteudo ; O_APPEND (0x400) | adicionar o conteudo
     int 0x80            ; chamada ao kernel
 
     mov [file_buffer], eax
@@ -95,13 +97,20 @@ _start:
     ; Abrir o arquivo para leitura
     mov eax, 5          ; syscall: sys_open
     mov ebx, filename   ; nome do arquivo
-    mov ecx, 0x402        ; O_FLAGS: O_WRONLY (2) | Somente escrita; O_APPEND (0x400) | adicionad
+    mov ecx, 0x402      ; O_FLAGS: O_WRONLY (2) | Somente escrita, vai sobrescrever o conteudo ; O_APPEND (0x400) | adicionar o conteudo
     int 0x80            ; chamada ao kernel
 
     mov [file_buffer], eax
 
 
 .conteudo:
+    ; print 
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, conteudo_msg            ; ponteiro para a mensagem
+    mov edx, conteudo_msg_len                 ; comprimento da mensagem
+    int 0x80                     ; chamada ao kernel
+
     ; Usuario escrevendo conteudo do arquivo:
     mov eax, 3  ; ler terminal
     mov ebx, 0  ; sdtin
