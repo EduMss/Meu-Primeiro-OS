@@ -90,13 +90,14 @@ _start:
     int 0x80            ; chamada ao kernel
     mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
 
+    mov [file_buffer], eax
+    
     ; Ajustar permissões manualmente 777
     mov eax, 15         ; syscall: sys_chmod
     mov ebx, filename   ; nome do arquivo
     mov ecx, 0o644      ; permissões exatas desejadas (-rw-r--r--)
     int 0x80            ; chamada ao kernel
 
-    mov [file_buffer], eax
 
     ; printando
     mov eax, 4
@@ -115,10 +116,10 @@ _start:
     int 0x80             ; chamada ao kernel
 
     ; Escrever no arquivo
-    mov ebx, [file_buffer]                  ; file descriptor retornado pela syscall open
     mov eax, 4                    ; syscall número 4 para write
-    mov ecx, file_conteudo                  ; mensagem para ser escrita
-    mov edx, 200                   ; comprimento da mensagem (13 bytes)
+    mov ebx, [file_buffer]                  ; file descriptor retornado pela syscall open
+    ;mov ecx, file_conteudo                  ; mensagem para ser escrita
+    ;mov edx, 200                   ; comprimento da mensagem (13 bytes)
     int 0x80                      ; chamada ao kernel
 
     jmp .continuidade
