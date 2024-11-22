@@ -68,11 +68,12 @@ _start:
     int 0x80            ; chamada ao kernel
     mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
 
+    mov [file_buffer],eax
+
     ; Verificar se houve erro na abertura do arquivo (se o arquivo não foi aberto corretamente)
     test eax, eax                 ; Se eax for negativo, ocorreu um erro
     js .criar_arquivo                      ; Se erro, ele vai criar o arquivo, depois vai dar contninuidade no codigo
 
-    mov [file_buffer],eax
 
     call .conteudo
 
