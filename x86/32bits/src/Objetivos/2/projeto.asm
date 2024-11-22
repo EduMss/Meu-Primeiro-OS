@@ -76,8 +76,6 @@ _start:
 
     call .conteudo
 
-    jmp .continuidade
-
     ;jmp .exit
 
 
@@ -122,7 +120,7 @@ _start:
     mov edx, 200                   ; comprimento da mensagem (13 bytes)
     int 0x80                      ; chamada ao kernel
 
-    ret
+    jmp .continuidade
 
 .continuidade:
     mov eax, 4
