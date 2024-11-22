@@ -68,7 +68,7 @@ _start:
     int 0x80            ; chamada ao kernel
     mov ebx, eax        ; O descritor do arquivo retornado é colocado em ebx
 
-    mov [file_buffer],eax
+    mov [file_buffer], eax
 
     ; Verificar se houve erro na abertura do arquivo (se o arquivo não foi aberto corretamente)
     test eax, eax                 ; Se eax for negativo, ocorreu um erro
@@ -96,7 +96,7 @@ _start:
     mov ecx, 0o644      ; permissões exatas desejadas (-rw-r--r--)
     int 0x80            ; chamada ao kernel
 
-    mov [file_buffer],eax
+    mov [file_buffer], eax
 
     ; printando
     mov eax, 4
