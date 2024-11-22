@@ -16,6 +16,7 @@ section .data
 section .bss
     buffer resb 100                ; Buffer para armazenar a leitura (100 bytes)
     filename resb 100
+    file_conteudo resb 200
     
 section .text
     global _start
@@ -71,6 +72,10 @@ _start:
     test eax, eax                 ; Se eax for negativo, ocorreu um erro
     js .criar_arquivo                      ; Se erro, ele vai criar o arquivo, depois vai dar contninuidade no codigo
 
+    mov [file_buffer],eax
+
+    call .conteudo
+
     jmp .continuidade
 
     ;jmp .exit
@@ -89,8 +94,10 @@ _start:
     ; Ajustar permissões manualmente 777
     mov eax, 15         ; syscall: sys_chmod
     mov ebx, filename   ; nome do arquivo
-    mov ecx, 0o644      ; permissões exatas desejadas
+    mov ecx, 0o644      ; permissões exatas desejadas (-rw-r--r--)
     int 0x80            ; chamada ao kernel
+
+    mov [file_buffer],eax
 
     ; printando
     mov eax, 4
@@ -99,6 +106,23 @@ _start:
     mov edx, criado_msg_len      ; comprimento da mensagem
     int 0x80                     ; chamada ao kernel
 
+
+.conteudo:
+    ; Usuario escrevendo conteudo do arquivo:
+    mov eax, 3  ; ler terminal
+    mov ebx, 0  ; sdtin
+    mov ecx, file_conteudo   ; endereço de memória para armazenar a entrada
+    mov edx, 200          ; número máximo de bytes a ler (tamanho do buffer)
+    int 0x80             ; chamada ao kernel
+
+    ; Escrever no arquivo
+    mov ebx, [file_buffer]                  ; file descriptor retornado pela syscall open
+    mov eax, 4                    ; syscall número 4 para write
+    mov ecx, file_conteudo                  ; mensagem para ser escrita
+    mov edx, 200                   ; comprimento da mensagem (13 bytes)
+    int 0x80                      ; chamada ao kernel
+
+    ret
 
 .continuidade:
     mov eax, 4
