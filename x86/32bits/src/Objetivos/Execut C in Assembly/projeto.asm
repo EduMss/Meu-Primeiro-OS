@@ -11,7 +11,7 @@ section .text
 _start:
     ; Configurar os argumentos (convenção cdecl)
     push dword 7             ; Segundo argumento: 7
-    push dword 4             ; Primeiro argumento: 3
+    push dword 3             ; Primeiro argumento: 3
     call soma                ; Chamar a função "soma" C
     add esp, 8               ; Limpar os argumentos da pilha
 
