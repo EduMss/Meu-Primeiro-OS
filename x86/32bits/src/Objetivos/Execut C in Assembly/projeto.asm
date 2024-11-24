@@ -22,6 +22,7 @@ _start:
     div ecx                  ; EAX contém o quociente, EDX contém o resto
 
     ; Printar o resultado (no caso, o quociente)
+    mov ecx, eax
     mov eax, 4               ; Syscall para escrever
     mov ebx, 1               ; Saída padrão (stdout)
     mov edx, 10              ; Tamanho da mensagem (precisa ser ajustado)
