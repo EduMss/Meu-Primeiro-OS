@@ -4,6 +4,7 @@ section .data
 section .text
     global _start            ; Ponto de entrada
     extern soma              ; Referência externa à função C
+    extern print             ; Referência externa à função C
 
 _start:
     ; Configurar os argumentos (convenção cdecl)
@@ -11,6 +12,8 @@ _start:
     push dword 4             ; Primeiro argumento: 3
     call soma                ; Chamar a função "soma"
     add esp, 8               ; Limpar os argumentos da pilha
+
+    call print               ; Chamar a função "print"
 
     ; Armazenar o resultado
     mov [resultado], eax     ; O retorno da função soma está em EAX
