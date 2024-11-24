@@ -6,7 +6,7 @@ section .text
     global _start            ; Ponto de entrada
     extern soma              ; Referência externa à função C
     extern print             ; Referência externa à função C
-    extern printcpp             ; Referência externa à função CPP
+    ;extern printcpp             ; Referência externa à função CPP
 
 _start:
     ; Configurar os argumentos (convenção cdecl)
@@ -16,7 +16,7 @@ _start:
     add esp, 8               ; Limpar os argumentos da pilha
 
     call print               ; Chamar a função "print" C
-    call printcpp            ; Chamar a função "printcpp" C++
+    ;call printcpp            ; Chamar a função "printcpp" C++
 
     ; Armazenar o resultado
     mov [resultado], eax     ; O retorno da função soma está em EAX
