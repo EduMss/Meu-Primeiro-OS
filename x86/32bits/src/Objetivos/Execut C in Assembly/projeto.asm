@@ -1,64 +1,47 @@
 section .data
-    resultado dd 0           ; Armazena o resultado retornado pela função
-    printText db "12345678901234567890", 0
-    hex_chars db "0123456789ABCDEF", 0 ; Tabela de caracteres hexadecimais
-    output db "0x00000000", 0xA, 0     ; Buffer para exibir o número em hexadecimal, seguido de nova linha
-
+    buffer db "Resultado: ", 10 dup('0'), 0 ; Buffer para armazenar o número em ASCII
+    newline db 0xA, 0                       ; Nova linha (opcional)
 
 section .text
-    global _start            ; Ponto de entrada
-    extern soma              ; Referência externa à função C
-    extern print             ; Referência externa à função C
-    ;extern printcpp             ; Referência externa à função CPP
+    global _start
+    extern soma                             ; Declaração da função soma (em C)
 
 _start:
-    ; Configurar os argumentos (convenção cdecl)
-    push dword 7             ; Segundo argumento: 7
-    push dword 3             ; Primeiro argumento: 3
-    call soma                ; Chamar a função "soma" C
-    add esp, 8               ; Limpar os argumentos da pilha
+    ; Configurar os argumentos da função
+    push dword 7                            ; Segundo argumento
+    push dword 3                            ; Primeiro argumento
+    call soma                               ; Chamar a função soma
+    add esp, 8                              ; Limpar os argumentos da pilha
 
-    call print               ; Chamar a função "print" C
-    ;call printcpp            ; Chamar a função "printcpp" C++
+    ; O valor retornado pela soma está em EAX
+    mov ecx, 10                             ; Base decimal
+    mov edi, buffer + 10                    ; Fim do espaço reservado para o número
+    mov byte [edi], 0                       ; Null terminator para string
 
-    ; Armazenar o resultado
-    ;mov [resultado], eax     ; O retorno da função soma está em EAX
+convert_to_ascii:
+    xor edx, edx                            ; Limpar edx
+    div ecx                                 ; Dividir EAX por 10 (ECX)
+    add dl, '0'                             ; Converter o resto (EDX) para ASCII
+    dec edi                                 ; Andar para trás no buffer
+    mov [edi], dl                           ; Armazenar o dígito
+    test eax, eax                           ; Verificar se ainda restam dígitos
+    jnz convert_to_ascii                    ; Repetir enquanto EAX não for 0
 
-    ; Dividir o resultado por 10
-    ;xor edx, edx             ; Limpar EDX
-    ;mov ecx, 10              ; Divisor
-    ;div ecx                  ; EAX contém o quociente, EDX contém o resto
-
-    ; Printar o resultado (no caso, o quociente)
-    ;mov edx, ecx             ; Tamanho da mensagem (vai seo o tamanho do resultado)
-    ;mov eax, 4               ; Syscall para escrever
-    ;mov ebx, 1               ; Saída padrão (stdout)
-    ;mov ecx, printText       ;   
-    ;int 0x80                 ; Chamada ao kernel
-
-
-    ; Converter o valor de EAX para hexadecimal
-    mov ecx, 8                  ; Número de dígitos para processar (32 bits = 8 dígitos hexadecimais)
-    lea edi, [output+2]         ; Apontar para onde inserir os dígitos no buffer ("0x" já preenchido)
-convert_loop:
-    mov ebx, eax                ; Copiar o valor atual
-    and ebx, 0xF                ; Pegar o nibble menos significativo (4 bits)
-    mov dl, byte [hex_chars + ebx] ; Converter o nibble em caractere ASCII
-    mov byte [edi+ecx-1], dl    ; Inserir o caractere no buffer
-    shr eax, 4                  ; Deslocar o próximo nibble para o nibble menos significativo
-    loop convert_loop           ; Repetir até processar todos os dígitos
-
-    ; Exibir o valor no terminal
-    mov eax, 4                  ; syscall: sys_write
-    mov ebx, 1                  ; Arquivo: stdout
-    mov ecx, output             ; Ponteiro para a string "0x..."
-    mov edx, 12                 ; Tamanho da string (10 caracteres + \n)
-    int 0x80                    ; Chamada ao kernel
-
-
-    ; Sair do programa
-    mov eax, 1               ; Syscall: sys_exit
-    xor ebx, ebx             ; Código de saída 0
+    ; Escrever a mensagem e o número no terminal
+    mov eax, 4                              ; syscall: sys_write
+    mov ebx, 1                              ; File descriptor: stdout
+    mov ecx, buffer                         ; Ponteiro para o buffer
+    mov edx, buffer + 10 - edi + 12         ; Comprimento da string
     int 0x80
 
-section .note.GNU-stack noalloc noexec nowrite progbits
+    ; Nova linha (opcional)
+    mov eax, 4                              ; syscall: sys_write
+    mov ebx, 1
+    mov ecx, newline
+    mov edx, 1
+    int 0x80
+
+    ; Sair do programa
+    mov eax, 1                              ; syscall: sys_exit
+    xor ebx, ebx                            ; Código de saída: 0
+    int 0x80
