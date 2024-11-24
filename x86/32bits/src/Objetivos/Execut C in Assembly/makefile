@@ -1,33 +1,27 @@
 EXECUTABLE_C = projeto.o
 SOURCE_C = projeto.c
-
-
-GCC_FLAGS = -m32
-GCC = gcc
-
-#Compilando codigo C
-$(EXECUTABLE_C): $(SOURCE_C)
-	$(GCC) $(GCC_FLAGS) -c $(SOURCE_C) -o $(EXECUTABLE_C)
-
-
 EXECUTABLE = program
 EXECUTABLE_ASM = program_asm.o
 SOURCE = projeto.asm
 
+GCC_FLAGS = -m32
+ASFLAGS = -f elf32
+GCC = gcc
 AS = nasm
 LD = ld
 
-ASFLAGS = -f elf32
+# Compilar o código C em objeto
+$(EXECUTABLE_C): $(SOURCE_C)
+	$(GCC) $(GCC_FLAGS) -c $(SOURCE_C) -o $(EXECUTABLE_C)
 
-#
-$(EXECUTABLE): $(SOURCE)
-# Compila o Assembly para um arquivo objeto 
+# Compilar o código Assembly em objeto
+$(EXECUTABLE_ASM): $(SOURCE)
 	$(AS) $(ASFLAGS) $(SOURCE) -o $(EXECUTABLE_ASM)
-#Linke os dois objetos: 
-	$(GCC) $(GCC_FLAGS) $(EXECUTABLE_C) $(EXECUTABLE_ASM) -o $(SOURCE)
 
-
+# Linkar os objetos para criar o executável final
+$(EXECUTABLE): $(EXECUTABLE_C) $(EXECUTABLE_ASM)
+	$(GCC) $(GCC_FLAGS) $(EXECUTABLE_C) $(EXECUTABLE_ASM) -o $(EXECUTABLE)
 
 # Regra para limpar os arquivos intermediários
 clean:
-	rm -f $(EXECUTABLE_ASM) $(EXECUTABLE) $(EXECUTABLE_C) 
+	rm -f $(EXECUTABLE_ASM) $(EXECUTABLE_C) $(EXECUTABLE)
