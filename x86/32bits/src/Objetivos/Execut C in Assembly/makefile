@@ -1,12 +1,12 @@
 EXECUTABLE_C = projeto.o
-SOURCE = projeto.c
+SOURCE_C = projeto.c
 
 
 GCC_FLAGS = -m32
 
 #Compilando codigo C
-$(EXECUTABLE_C): $(SOURCE)
-	gcc $(GCC_FLAGS) -c $(SOURCE) -o $(EXECUTABLE_C)
+$(EXECUTABLE_C): $(SOURCE_C)
+	gcc $(GCC_FLAGS) -c $(SOURCE_C) -o $(EXECUTABLE_C)
 
 
 EXECUTABLE = program
