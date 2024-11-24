@@ -36,4 +36,4 @@ $(EXECUTABLE): $(EXECUTABLE_C) $(EXECUTABLE_ASM) $(EXECUTABLE_CPP)
 
 # Regra para limpar os arquivos intermediários
 c:
-	rm -f $(EXECUTABLE_ASM) $(EXECUTABLE_C) $(EXECUTABLE)
+	rm -f $(EXECUTABLE_ASM) $(EXECUTABLE_C) $(EXECUTABLE_CPP) $(EXECUTABLE)
