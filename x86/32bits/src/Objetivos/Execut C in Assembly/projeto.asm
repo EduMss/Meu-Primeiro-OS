@@ -1,6 +1,9 @@
 section .data
     resultado dd 0           ; Armazena o resultado retornado pela função
     printText db "12345678901234567890", 0
+    hex_chars db "0123456789ABCDEF", 0 ; Tabela de caracteres hexadecimais
+    output db "0x00000000", 0xA, 0     ; Buffer para exibir o número em hexadecimal, seguido de nova linha
+
 
 section .text
     global _start            ; Ponto de entrada
@@ -19,13 +22,12 @@ _start:
     ;call printcpp            ; Chamar a função "printcpp" C++
 
     ; Armazenar o resultado
-    mov [resultado], eax     ; O retorno da função soma está em EAX
+    ;mov [resultado], eax     ; O retorno da função soma está em EAX
 
     ; Dividir o resultado por 10
-    ;mov eax, [resultado]     ; Número a ser dividido
-    xor edx, edx             ; Limpar EDX
-    mov ecx, 10              ; Divisor
-    div ecx                  ; EAX contém o quociente, EDX contém o resto
+    ;xor edx, edx             ; Limpar EDX
+    ;mov ecx, 10              ; Divisor
+    ;div ecx                  ; EAX contém o quociente, EDX contém o resto
 
     ; Printar o resultado (no caso, o quociente)
     ;mov edx, ecx             ; Tamanho da mensagem (vai seo o tamanho do resultado)
@@ -34,13 +36,25 @@ _start:
     ;mov ecx, printText       ;   
     ;int 0x80                 ; Chamada ao kernel
 
-    ; Printar o resultado (no caso, o quociente)
-    ;mov edx, ecx             ; Tamanho da mensagem (vai seo o tamanho do resultado)
-    mov eax, 4               ; Syscall para escrever
-    mov ebx, 1               ; Saída padrão (stdout)
-    ;mov ecx, printText       ;   
-    mov edx, 10              ; Tamanho da mensagem (precisa ser ajustado)
-    int 0x80                 ; Chamada ao kernel
+
+    ; Converter o valor de EAX para hexadecimal
+    mov ecx, 8                  ; Número de dígitos para processar (32 bits = 8 dígitos hexadecimais)
+    lea edi, [output+2]         ; Apontar para onde inserir os dígitos no buffer ("0x" já preenchido)
+convert_loop:
+    mov ebx, eax                ; Copiar o valor atual
+    and ebx, 0xF                ; Pegar o nibble menos significativo (4 bits)
+    mov dl, byte [hex_chars + ebx] ; Converter o nibble em caractere ASCII
+    mov byte [edi+ecx-1], dl    ; Inserir o caractere no buffer
+    shr eax, 4                  ; Deslocar o próximo nibble para o nibble menos significativo
+    loop convert_loop           ; Repetir até processar todos os dígitos
+
+    ; Exibir o valor no terminal
+    mov eax, 4                  ; syscall: sys_write
+    mov ebx, 1                  ; Arquivo: stdout
+    mov ecx, output             ; Ponteiro para a string "0x..."
+    mov edx, 12                 ; Tamanho da string (10 caracteres + \n)
+    int 0x80                    ; Chamada ao kernel
+
 
     ; Sair do programa
     mov eax, 1               ; Syscall: sys_exit
