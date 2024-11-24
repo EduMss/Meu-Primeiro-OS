@@ -26,5 +26,5 @@ $(EXECUTABLE): $(EXECUTABLE_C) $(EXECUTABLE_ASM)
 	$(GCC) $(GCC_FLAGS) -no-pie $(EXECUTABLE_C) $(EXECUTABLE_ASM) -nostartfiles -o $(EXECUTABLE)
 
 # Regra para limpar os arquivos intermediários
-clean:
+c:
 	rm -f $(EXECUTABLE_ASM) $(EXECUTABLE_C) $(EXECUTABLE)

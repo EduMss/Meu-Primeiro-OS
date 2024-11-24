@@ -26,3 +26,7 @@ _start:
     mov eax, 1               ; syscall: sys_exit
     xor ebx, ebx             ; Código de saída 0
     int 0x80
+
+
+; Adicione a diretiva .note.GNU-stack ao final do arquivo Assembly para indicar que a pilha não é executável
+section .note.GNU-stack noalloc noexec nowrite progbits 
