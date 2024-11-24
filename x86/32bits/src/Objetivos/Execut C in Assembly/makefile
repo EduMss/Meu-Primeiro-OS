@@ -3,10 +3,11 @@ SOURCE_C = projeto.c
 
 
 GCC_FLAGS = -m32
+GCC = gcc
 
 #Compilando codigo C
 $(EXECUTABLE_C): $(SOURCE_C)
-	gcc $(GCC_FLAGS) -c $(SOURCE_C) -o $(EXECUTABLE_C)
+	$(GCC) $(GCC_FLAGS) -c $(SOURCE_C) -o $(EXECUTABLE_C)
 
 
 EXECUTABLE = program
@@ -23,7 +24,7 @@ $(EXECUTABLE): $(SOURCE)
 # Compila o Assembly para um arquivo objeto 
 	$(AS) $(ASFLAGS) $(SOURCE) -o $(EXECUTABLE_ASM)
 #Linke os dois objetos: 
-	gcc $(GCC_FLAGS) $(EXECUTABLE_C) $(EXECUTABLE_ASM) -o $(SOURCE)
+	$(GCC) $(GCC_FLAGS) $(EXECUTABLE_C) $(EXECUTABLE_ASM) -o $(SOURCE)
 
 
 
