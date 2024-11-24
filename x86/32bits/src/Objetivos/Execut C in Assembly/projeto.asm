@@ -42,7 +42,7 @@ int_to_str:
 
 .int_to_str_loop:
     xor edx, edx             ; Limpar o resto
-    div dword 10             ; EAX = EAX / 10, EDX = resto
+    div dword, 10             ; EAX = EAX / 10, EDX = resto
     add dl, '0'              ; Converter dígito para ASCII
     dec ebx                  ; Avançar no buffer para trás
     mov [ebx], dl            ; Armazenar o dígito no buffer
