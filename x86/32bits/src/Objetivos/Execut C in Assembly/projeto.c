@@ -5,5 +5,5 @@ int soma(int a, int b) {
 }
 
 void print() {
-
+    printf("hello world\n");
 }

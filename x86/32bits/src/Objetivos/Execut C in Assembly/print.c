@@ -1,5 +1,6 @@
 #include <stdio.h>
-// gcc -m32 -c print.c -o print
+// gcc -o print print.c
+// ./print
 int main() {
     printf("hello world\n");
 }
