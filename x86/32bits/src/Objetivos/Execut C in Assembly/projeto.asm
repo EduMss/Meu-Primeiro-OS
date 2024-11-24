@@ -22,13 +22,13 @@ _start:
     mov [resultado], eax     ; O retorno da função soma está em EAX
 
     ; Dividir o resultado por 10
-    mov eax, [resultado]     ; Número a ser dividido
+    ;mov eax, [resultado]     ; Número a ser dividido
     xor edx, edx             ; Limpar EDX
     mov ecx, 10              ; Divisor
     div ecx                  ; EAX contém o quociente, EDX contém o resto
 
     ; Printar o resultado (no caso, o quociente)
-    mov edx, eax             ; Tamanho da mensagem (vai seo o tamanho do resultado)
+    mov edx, ecx             ; Tamanho da mensagem (vai seo o tamanho do resultado)
     mov eax, 4               ; Syscall para escrever
     mov ebx, 1               ; Saída padrão (stdout)
     mov ecx, printText       ;   
