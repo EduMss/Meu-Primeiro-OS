@@ -41,8 +41,11 @@ int_to_str:
     mov edx, 0               ; Limpar o resto
 
 .int_to_str_loop:
+    mov eax, [resultado]     ; Número a ser dividido (dividendo)
     xor edx, edx             ; Limpar o resto
-    div dword 10             ; EAX = EAX / 10, EDX = resto
+    ;div dword 10             ; EAX = EAX / 10, EDX = resto
+    mov ecx, 10              ; Divisor
+    div ecx                  ; Dividir EDX:EAX por ECX (quociente em EAX, resto em EDX)
     add dl, '0'              ; Converter dígito para ASCII
     dec ebx                  ; Avançar no buffer para trás
     mov [ebx], dl            ; Armazenar o dígito no buffer
