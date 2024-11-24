@@ -23,7 +23,7 @@ $(EXECUTABLE_ASM): $(SOURCE)
 
 # Linkar os objetos para criar o executável final
 $(EXECUTABLE): $(EXECUTABLE_C) $(EXECUTABLE_ASM)
-	$(GCC) $(GCC_FLAGS) $(EXECUTABLE_C) $(EXECUTABLE_ASM) -nostartfiles -o $(EXECUTABLE)
+	$(GCC) $(GCC_FLAGS) -no-pie $(EXECUTABLE_C) $(EXECUTABLE_ASM) -nostartfiles -o $(EXECUTABLE)
 
 # Regra para limpar os arquivos intermediários
 clean:
