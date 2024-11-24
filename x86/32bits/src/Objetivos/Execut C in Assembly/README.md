@@ -1,3 +1,13 @@
+
+```
+sudo apt update
+sudo apt install libc6-dev-i386 gcc-multilib
+```
+
+libc6-dev-i386: Fornece as bibliotecas C padrão para 32 bits.
+gcc-multilib: Permite que o GCC compile tanto para 32 bits quanto para 64 bits.
+
+
 ```
 gcc -m32 -c projeto.c -o projeto.o
 ```
