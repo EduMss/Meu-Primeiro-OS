@@ -1,7 +1,7 @@
 
 ```
 sudo apt update
-sudo apt install libc6-dev-i386 gcc-multilib
+sudo apt-get install libc6-dev-i386 gcc-multilib g++-multilib
 ```
 
 libc6-dev-i386: Fornece as bibliotecas C padrão para 32 bits.

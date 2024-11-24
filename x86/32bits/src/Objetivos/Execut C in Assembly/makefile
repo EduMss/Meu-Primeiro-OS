@@ -31,8 +31,11 @@ $(EXECUTABLE_ASM): $(SOURCE_ASM)
 	$(AS) $(ASFLAGS) $(SOURCE_ASM) -o $(EXECUTABLE_ASM)
 
 # Linkar os objetos para criar o executável final
-$(EXECUTABLE): $(EXECUTABLE_C) $(EXECUTABLE_ASM) $(EXECUTABLE_CPP)
-	$(GCC) $(GCC_FLAGS) -no-pie $(EXECUTABLE_C) $(EXECUTABLE_CPP) $(EXECUTABLE_ASM) -nostartfiles -o $(EXECUTABLE)
+#$(EXECUTABLE): $(EXECUTABLE_C) $(EXECUTABLE_ASM) $(EXECUTABLE_CPP)
+#	$(GCC) $(GCC_FLAGS) -no-pie $(EXECUTABLE_C) $(EXECUTABLE_CPP) $(EXECUTABLE_ASM) -nostartfiles -o $(EXECUTABLE)
+
+$(EXECUTABLE): $(EXECUTABLE_C) $(EXECUTABLE_ASM)
+	$(GCC) $(GCC_FLAGS) -no-pie $(EXECUTABLE_C) $(EXECUTABLE_ASM) -nostartfiles -o $(EXECUTABLE)
 
 # Regra para limpar os arquivos intermediários
 c:

@@ -1,5 +1,6 @@
 section .data
     resultado dd 0           ; Armazena o resultado retornado pela função
+    printText db "12345678901234567890", 0
 
 section .text
     global _start            ; Ponto de entrada
@@ -27,10 +28,11 @@ _start:
     div ecx                  ; EAX contém o quociente, EDX contém o resto
 
     ; Printar o resultado (no caso, o quociente)
-    mov ecx, eax
+    mov edx, eax             ; Tamanho da mensagem (vai seo o tamanho do resultado)
     mov eax, 4               ; Syscall para escrever
     mov ebx, 1               ; Saída padrão (stdout)
-    mov edx, 10              ; Tamanho da mensagem (precisa ser ajustado)
+    mov ecx, printText       ;   
+    ;mov edx, 10              ; Tamanho da mensagem (precisa ser ajustado)
     int 0x80                 ; Chamada ao kernel
 
     ; Sair do programa
