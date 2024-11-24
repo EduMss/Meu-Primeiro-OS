@@ -24,3 +24,5 @@ _start:
     mov eax, 1                              ; syscall: sys_exit
     xor ebx, ebx                            ; Código de saída: 0
     int 0x80
+
+section .note.GNU-stack noalloc noexec nowrite progbits
