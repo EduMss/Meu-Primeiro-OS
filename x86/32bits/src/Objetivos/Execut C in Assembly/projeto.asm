@@ -1,14 +1,9 @@
 section .data
-    resultado db "Resultado: ", 0   ; Prefixo da mensagem
-    buffer db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; Buffer para o número convertido em string
-    newline db 10, 0                ; Nova linha
-
-section .bss
-    len resb 1                      ; Comprimento da string gerada
+    msg db 'A soma é: ', 0xA  ; Mensagem a ser impressa
+    num db 10 dup(0)        ; Buffer para armazenar a string do número
 
 section .text
-    global _start                   ; Ponto de entrada
-    extern soma                     ; Declaração da função C
+    global _start
 
 _start:
     ; Chamar a função soma(7, 3)
@@ -16,59 +11,36 @@ _start:
     push dword 3                    ; Primeiro argumento
     call soma                       ; Chamar a função
     add esp, 8                      ; Limpar a pilha
+    ; resultado em eax
 
-    ; Converter o resultado (EAX) em string
-    mov ecx, buffer                 ; Ponteiro para o buffer
-    mov ebx, eax                    ; Número a ser convertido
-    call int_to_string              ; Chama a rotina de conversão
+    ; Converter o inteiro para string (algoritmo simplificado)
+    mov ecx, 10  ; Contador para os dígitos
+    mov esi, num ; Ponteiro para o buffer
+    mov edx, eax ; Cópia do resultado para não alterar o eax
 
-    ; Imprimir "Resultado: "
-    mov eax, 4                      ; syscall: sys_write
-    mov ebx, 1                      ; stdout
-    mov ecx, resultado              ; Ponteiro para a mensagem
-    mov edx, 10                     ; Comprimento da mensagem (fixo em 10 bytes)
-    int 0x80                        ; Chamada ao kernel
+.loop:
+    xor edx, edx  ; Limpar o EDX para a divisão
+    mov ebx, 10
+    div ebx       ; Dividir por 10 para obter o próximo dígito
+    add dl, '0'   ; Converter o resto da divisão para ASCII
+    dec esi
+    mov [esi], dl
+    loop .loop
 
-    ; Imprimir o número convertido
-    mov eax, 4                      ; syscall: sys_write
-    mov ebx, 1                      ; stdout
-    mov ecx, buffer                 ; Ponteiro para o buffer
-    mov edx, [len]                  ; Comprimento do número
-    int 0x80                        ; Chamada ao kernel
-
-    ; Imprimir uma nova linha
-    mov eax, 4                      ; syscall: sys_write
-    mov ebx, 1                      ; stdout
-    mov ecx, newline                ; Ponteiro para a nova linha
-    mov edx, 1                      ; Comprimento da nova linha
-    int 0x80                        ; Chamada ao kernel
-
-    ; Sair do programa
-    mov eax, 1                      ; syscall: sys_exit
-    xor ebx, ebx                    ; Código de saída 0
+    ; Imprimir a mensagem e o número
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg
     int 0x80
 
-; Rotina para converter um número inteiro para string (base 10)
-int_to_string:
-    xor edx, edx                    ; Limpar EDX (resto)
-    mov esi, 10                     ; Divisor (base 10)
-    mov edi, ecx                    ; Armazena o ponteiro original
-    add edi, 10                     ; Aponta para o final do buffer
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, num
+    int 0x80
 
-convert_loop:
-    xor edx, edx                    ; Limpar EDX
-    div esi                         ; EAX / 10, resto em EDX
-    add dl, '0'                     ; Converter dígito para ASCII
-    dec edi                         ; Move o ponteiro para trás
-    mov [edi], dl                   ; Armazena o caractere
-    test eax, eax                   ; Verifica se o quociente é 0
-    jnz convert_loop                ; Se não, continua
-
-    mov eax, ecx                    ; Ponteiro original do buffer
-    sub eax, edi                    ; Calcula o comprimento
-    neg eax                         ; Corrige o comprimento
-    mov [len], al                   ; Salva o comprimento
-    mov ecx, edi                    ; Atualiza o ponteiro para o início da string
-    ret
+    ; Encerrar o programa
+    mov eax, 1
+    mov ebx, 0
+    int 0x80
 
 section .note.GNU-stack noalloc noexec nowrite progbits
