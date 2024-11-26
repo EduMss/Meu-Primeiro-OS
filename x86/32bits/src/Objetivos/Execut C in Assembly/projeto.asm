@@ -33,8 +33,7 @@ _start:
     mov eax, 4                      ; syscall: sys_write
     mov ebx, 1                      ; stdout
     mov ecx, buffer                 ; Ponteiro para o buffer
-    ;mov edx, [len]                  ; Comprimento do número
-    mov edx, 3
+    mov edx, [len]                  ; Comprimento do número
     int 0x80                        ; Chamada ao kernel
 
     ; Imprimir uma nova linha
@@ -54,19 +53,23 @@ int_to_string:
     xor edx, edx                    ; Limpar EDX (resto)
     mov esi, 10                     ; Divisor (base 10)
     mov edi, ecx                    ; Armazena o ponteiro original
+    add edi, 10                     ; Aponta para o final do buffer
 
 convert_loop:
     xor edx, edx                    ; Limpar EDX
     div esi                         ; EAX / 10, resto em EDX
     add dl, '0'                     ; Converter dígito para ASCII
-    dec ecx                         ; Move o ponteiro para trás
-    mov [ecx], dl                   ; Armazena o caractere
+    dec edi                         ; Move o ponteiro para trás
+    mov [edi], dl                   ; Armazena o caractere
     test eax, eax                   ; Verifica se o quociente é 0
     jnz convert_loop                ; Se não, continua
 
-    mov eax, edi                    ; Ponteiro original do buffer
-    sub eax, ecx                    ; Calcula o comprimento
+    mov eax, ecx                    ; Ponteiro original do buffer
+    sub eax, edi                    ; Calcula o comprimento
+    neg eax                         ; Corrige o comprimento
     mov [len], al                   ; Salva o comprimento
+    mov ecx, edi                    ; Atualiza o ponteiro para o início da string
     ret
+
 
 section .note.GNU-stack noalloc noexec nowrite progbits
