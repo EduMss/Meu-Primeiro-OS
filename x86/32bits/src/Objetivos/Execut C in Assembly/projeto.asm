@@ -26,14 +26,14 @@ _start:
     mov eax, 4                      ; syscall: sys_write
     mov ebx, 1                      ; stdout
     mov ecx, resultado              ; Ponteiro para a mensagem
-    mov edx, 11                     ; Comprimento da mensagem
+    mov edx, 10                     ; Comprimento da mensagem (fixo em 10 bytes)
     int 0x80                        ; Chamada ao kernel
 
     ; Imprimir o número convertido
     mov eax, 4                      ; syscall: sys_write
     mov ebx, 1                      ; stdout
     mov ecx, buffer                 ; Ponteiro para o buffer
-    mov edx, 2                  ; Comprimento do número
+    mov edx, [len]                  ; Comprimento do número
     int 0x80                        ; Chamada ao kernel
 
     ; Imprimir uma nova linha
@@ -70,6 +70,5 @@ convert_loop:
     mov [len], al                   ; Salva o comprimento
     mov ecx, edi                    ; Atualiza o ponteiro para o início da string
     ret
-
 
 section .note.GNU-stack noalloc noexec nowrite progbits
