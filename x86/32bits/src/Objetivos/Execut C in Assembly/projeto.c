@@ -14,11 +14,12 @@ const char * texto()
     return "hello\n";
 }
 
-char * somaString(int a, int b) {
+int somaString(int a, int b) {
     int num = a + b;
     char str[20];
+
     itoa(num, str, 10); // Converte num para uma string decimal e armazena em str
-    // sprintf(str, "%d", num);
-    // printf("A soma é: %s\n", str);
-    return *str;
+
+    printf("O valor de num em string é: %s\n", str);
+    return 0;
 }
