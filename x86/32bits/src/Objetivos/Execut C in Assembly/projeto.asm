@@ -4,6 +4,7 @@ section .data
 
 section .text
     global _start
+    extern soma 
 
 _start:
     ; Chamar a função soma(7, 3)
