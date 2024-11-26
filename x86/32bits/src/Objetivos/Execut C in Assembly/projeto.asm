@@ -13,7 +13,6 @@ _start:
     call somaString               ; Chamar a função "print" C
     add esp, 8               ; Limpar os argumentos da pilha
 
-
     mov ecx, eax
 
     ; Printar o resultado (no caso, o quociente)
