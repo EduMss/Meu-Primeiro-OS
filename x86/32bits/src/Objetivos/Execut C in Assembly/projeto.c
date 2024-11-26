@@ -23,12 +23,11 @@ int somaPrint(int a, int b) {
     return 0;
 }
 
-const char * somaString(int a, int b) {
+const char* somaString(int a, int b) {
+    static char str[20]; // Array estático para garantir que a string persista após a função terminar
     int num = a + b;
-    char** str[20];
 
-    sprintf(str, "%d", num); // Converte num para uma string decimal e armazena em str
+    sprintf(str, "%d", num);
 
-    //printf("O valor de num em string é: %s\n", str);
     return str;
 }
