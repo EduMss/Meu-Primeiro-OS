@@ -1,3 +1,7 @@
+Gerar codigo em assembly do codigo C 
+```
+gcc -S -m32 -o output.asm projeto.c
+```
 
 ```
 sudo apt update
