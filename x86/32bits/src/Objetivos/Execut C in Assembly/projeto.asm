@@ -1,60 +1,31 @@
 section .data
-    number dd 10             ; O valor a ser impresso
-    buffer db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; Buffer para armazenar a string do número
-    buffer_len equ 11        ; Tamanho do buffer
-    newline db 10, 0         ; Nova linha (opcional)
 
-section .bss
 
 section .text
-    global _start
+    global _start            ; Ponto de entrada
+    extern texto              ; Referência externa à função C
+    ;extern printcpp             ; Referência externa à função CPP
 
 _start:
-    ; Carregar o valor de 'number' para EAX
-    mov eax, [number]
+    ; Configurar os argumentos (convenção cdecl)
+    push dword 7             ; Segundo argumento: 7
+    push dword 3             ; Primeiro argumento: 3
+    call soma                ; Chamar a função "soma" C
+    add esp, 8               ; Limpar os argumentos da pilha
 
-    ; Converter para string
-    mov edi, buffer          ; Apontar para o buffer
-    call int_to_string       ; Chama a função para converter EAX para string
+    call texto               ; Chamar a função "print" C
 
-    ; Escrever o número no terminal
-    mov eax, 4               ; syscall: sys_write
-    mov ebx, 1               ; arquivo: saída padrão
-    mov ecx, edi             ; ponteiro para a string (buffer)
-    sub edi, buffer          ; Calcula o tamanho da string gerada
-    mov edx, edi             ; comprimento da string
-    add edi, buffer          ; Restaura o ponteiro do buffer
-    int 0x80                 ; chamada ao kernel
+    mov ecx, eax
 
-    ; Escrever uma nova linha
-    mov eax, 4               ; syscall: sys_write
-    mov ebx, 1               ; arquivo: saída padrão
-    mov ecx, newline         ; ponteiro para a nova linha
-    mov edx, 1               ; comprimento da nova linha
-    int 0x80                 ; chamada ao kernel
+    ; Printar o resultado (no caso, o quociente)
+    mov edx, 10             ; Tamanho da mensagem (vai seo o tamanho do resultado)
+    mov eax, 4               ; Syscall para escrever
+    mov ebx, 1               ; Saída padrão (stdout)
+    int 0x80                 ; Chamada ao kernel
 
-    ; Encerrar o programa
-    mov eax, 1               ; syscall: sys_exit
-    xor ebx, ebx             ; Código de saída: 0
-    int 0x80                 ; chamada ao kernel
+    ; Sair do programa
+    mov eax, 1               ; Syscall: sys_exit
+    xor ebx, ebx             ; Código de saída 0
+    int 0x80
 
-; Função para converter EAX (inteiro) para uma string decimal
-; Entrada: EAX contém o número
-; Saída: Buffer contém a string do número, apontado por EDI
-int_to_string:
-    xor ecx, ecx             ; ECX será usado para contar os dígitos
-.next_digit:
-    xor edx, edx             ; Limpar EDX antes de DIV
-    mov ebx, 10              ; Divisor
-    div ebx                  ; EAX = EAX / 10, EDX = resto
-    add dl, '0'              ; Converte o dígito para ASCII
-    dec edi                  ; Move para trás no buffer
-    mov [edi], dl            ; Armazena o dígito no buffer
-    inc ecx                  ; Incrementa o contador de dígitos
-    test eax, eax            ; Verifica se ainda há mais dígitos
-    jnz .next_digit          ; Continua se EAX > 0
-
-    ; Aponta EDI para o início da string gerada
-    add edi, buffer_len      ; EDI aponta para o final do buffer
-    sub edi, ecx             ; Ajusta EDI para o início do número
-    ret
+section .note.GNU-stack noalloc noexec nowrite progbits

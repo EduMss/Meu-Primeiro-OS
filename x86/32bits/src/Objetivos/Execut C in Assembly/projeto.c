@@ -7,3 +7,8 @@ int soma(int a, int b) {
 void print() {
     printf("hello world\n");
 }
+
+const char * texto()
+{
+    return "hello";
+}
