@@ -20,13 +20,16 @@ _start:
     mov edx, eax ; Cópia do resultado para não alterar o eax
 
 .loop:
-    xor edx, edx  ; Limpar o EDX para a divisão
+    xor edx, edx
     mov ebx, 10
-    div ebx       ; Dividir por 10 para obter o próximo dígito
-    add dl, '0'   ; Converter o resto da divisão para ASCII
+    div ebx
+    add dl, '0'
     dec esi
     mov [esi], dl
     loop .loop
+
+    ; Adicionando um caractere nulo para marcar o final da string
+    mov byte [esi], 0
 
     ; Imprimir a mensagem e o número
     mov eax, 4
