@@ -8,12 +8,9 @@ section .text
 
 _start:
     ; Configurar os argumentos (convenção cdecl)
-    push dword 7             ; Segundo argumento: 7
-    push dword 3             ; Primeiro argumento: 3
-    call soma                ; Chamar a função "soma" C
+    call texto               ; Chamar a função "print" C
     add esp, 8               ; Limpar os argumentos da pilha
 
-    call texto               ; Chamar a função "print" C
 
     mov ecx, eax
 
