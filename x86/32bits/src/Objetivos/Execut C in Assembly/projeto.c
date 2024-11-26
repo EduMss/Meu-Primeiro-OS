@@ -10,5 +10,5 @@ void print() {
 
 const char * texto()
 {
-    return "hello";
+    return "hello\n";
 }
