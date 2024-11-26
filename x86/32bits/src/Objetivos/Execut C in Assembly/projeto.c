@@ -30,5 +30,5 @@ const char * somaString(int a, int b) {
     sprintf(str, "%d", num); // Converte num para uma string decimal e armazena em str
 
     //printf("O valor de num em string é: %s\n", str);
-    return str;
+    return str*;
 }
