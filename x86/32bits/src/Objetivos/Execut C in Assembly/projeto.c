@@ -20,5 +20,5 @@ char * somaString(int a, int b) {
     itoa(num, str, 10); // Converte num para uma string decimal e armazena em str
     // sprintf(str, "%d", num);
     // printf("A soma é: %s\n", str);
-    return str;
+    return *str;
 }
