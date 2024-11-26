@@ -25,7 +25,7 @@ int somaPrint(int a, int b) {
 
 const char * somaString(int a, int b) {
     int num = a + b;
-    char* str[20];
+    char** str[20];
 
     sprintf(str, "%d", num); // Converte num para uma string decimal e armazena em str
 
