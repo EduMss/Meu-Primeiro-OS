@@ -3,14 +3,14 @@ section .data
 
 section .text
     global _start            ; Ponto de entrada
-    extern soma              ; Referência externa à função C
+    extern somaString              ; Referência externa à função C
     ;extern printcpp             ; Referência externa à função CPP
 
 _start:
     ; Configurar os argumentos (convenção cdecl)
     push dword 7             ; Segundo argumento: 7
     push dword 3             ; Primeiro argumento: 3
-    call soma               ; Chamar a função "print" C
+    call somaString               ; Chamar a função "print" C
     add esp, 8               ; Limpar os argumentos da pilha
 
 

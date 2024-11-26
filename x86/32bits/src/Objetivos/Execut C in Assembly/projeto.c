@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int * soma(int a, int b) {
+int soma(int a, int b) {
     return a + b;
 }
 
@@ -13,10 +13,10 @@ const char * texto()
     return "hello\n";
 }
 
-int main() {
-    int num = 10;
+char * somaString(int a, int b) {
+    int num = a + b;
     char str[20];
     sprintf(str, "%d", num);
-    printf("A soma é: %s\n", str);
-    return 0;
+    // printf("A soma é: %s\n", str);
+    return str;
 }
