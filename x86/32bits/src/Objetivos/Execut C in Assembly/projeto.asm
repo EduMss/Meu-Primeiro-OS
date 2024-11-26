@@ -33,7 +33,8 @@ _start:
     mov eax, 4                      ; syscall: sys_write
     mov ebx, 1                      ; stdout
     mov ecx, buffer                 ; Ponteiro para o buffer
-    mov edx, [len]                  ; Comprimento do número
+    ;mov edx, [len]                  ; Comprimento do número
+    mov edx, 3
     int 0x80                        ; Chamada ao kernel
 
     ; Imprimir uma nova linha
