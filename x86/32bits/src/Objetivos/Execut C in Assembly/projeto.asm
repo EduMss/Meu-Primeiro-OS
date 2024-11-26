@@ -14,10 +14,18 @@ _start:
     add esp, 8                      ; Limpar a pilha
     ; resultado em eax
 
-    ; Converter o inteiro para string (algoritmo simplificado)
-    mov ecx, 10  ; Contador para os dígitos
-    mov esi, num ; Ponteiro para o buffer
-    mov edx, eax ; Cópia do resultado para não alterar o eax
+    ; Inicializar o buffer com zeros
+    mov ecx, 10
+    mov esi, num
+.init_loop:
+    mov byte [esi], '0'
+    inc esi
+    loop .init_loop
+
+    ; Converter inteiro para string
+    mov ecx, 10
+    mov esi, num + 9 ; Começar do final do buffer
+    mov edx, eax
 
 .convert_loop:
     xor edx, edx  ; Clear EDX for division
