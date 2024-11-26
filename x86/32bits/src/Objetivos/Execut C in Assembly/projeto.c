@@ -18,7 +18,7 @@ int somaString(int a, int b) {
     int num = a + b;
     char str[20];
 
-    itoa(num, str, 10); // Converte num para uma string decimal e armazena em str
+    sprintf(str, "%d", num); // Converte num para uma string decimal e armazena em str
 
     printf("O valor de num em string é: %s\n", str);
     return 0;
