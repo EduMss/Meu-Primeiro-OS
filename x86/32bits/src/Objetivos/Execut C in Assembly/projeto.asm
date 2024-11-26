@@ -19,14 +19,14 @@ _start:
     mov esi, num ; Ponteiro para o buffer
     mov edx, eax ; Cópia do resultado para não alterar o eax
 
-.loop:
-    xor edx, edx
-    mov ebx, 10
-    div ebx
-    add dl, '0'
-    dec esi
+.convert_loop:
+    xor edx, edx  ; Clear EDX for division
+    div ecx       ; Divide by 10
+    add dl, '0'   ; Convert remainder to ASCII digit
+    dec esi       ; Move to the next position in the buffer
     mov [esi], dl
-    loop .loop
+    cmp eax, 0    ; Check if the quotient is zero
+    jne .convert_loop
 
     ; Adicionando um caractere nulo para marcar o final da string
     mov byte [esi], 0
