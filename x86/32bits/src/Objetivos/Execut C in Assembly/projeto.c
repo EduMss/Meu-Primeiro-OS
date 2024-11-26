@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int soma(int a, int b) {
     return a + b;
@@ -16,7 +17,8 @@ const char * texto()
 char * somaString(int a, int b) {
     int num = a + b;
     char str[20];
-    sprintf(str, "%d", num);
+    itoa(num, str, 10); // Converte num para uma string decimal e armazena em str
+    // sprintf(str, "%d", num);
     // printf("A soma é: %s\n", str);
     return str;
 }
